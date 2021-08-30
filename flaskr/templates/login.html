@@ -1,11 +1,40 @@
-<h1>Login</h1>
-<form action="/login" method="post">
-  <p>Email</p>
-  {{ form.email }}
-  <p>Password</p>
-  {{ form.password }}
-  {{ form.hidden_tag() }}
-  <br>
-  <br>
-  <input type="submit" value="Login">
-</form>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Wabby Wabbo CRM</title>
+
+    <!-- Bootstrap core CSS -->
+	
+	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}" >
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" >
+
+  </head>
+  <body class="text-center">
+    
+	<main class="form-signin">
+	  <form action="/login" method="post">
+		<h1 class="h3 mb-3 fw-normal">Sign in to</h1>
+		<h1 class="h3 mb-3 fw-normal">Wabby Wabbo CRM</h1>
+		<div class="form-floating">
+		  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+		  <label for="floatingInput">Email address</label>
+		</div>
+		<div class="form-floating">
+		  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+		  <label for="floatingPassword">Password</label>
+		</div>
+
+		<div class="checkbox mb-3">
+		  <label>
+			<input type="checkbox" value="remember-me"> Remember me
+		  </label>
+		</div>
+		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+	  </form>
+	</main>
+
+  </body>
+</html>
+

@@ -1,6 +1,5 @@
 from mongoengine import *
 
-connect('crm', host='127.0.0.1', port=27017)
 
 
 class Company(Document):

@@ -1,5 +1,5 @@
 import os
-
+from Model import Client
 from flask import Flask
 from flask_mongoengine import MongoEngine
 
@@ -12,9 +12,13 @@ def create_app(test_config=None):
         # DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
     app.config['MONGODB_SETTINGS'] = {
-        "db": "myapp",
+        "db": "crm",
+        'host': 'localhost',
+        'port': 27017
+
     }
-    db = MongoEngine(app)
+    db = MongoEngine()
+    db.init_app(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -33,7 +37,10 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
-
+    @app.route('/create_client')
+    def create_client():
+        Client.create()
+        return "yes"
     # from . import auth
     # app.register_blueprint(auth.bp)
     

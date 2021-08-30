@@ -1,39 +1,29 @@
-# import functools
+from flaskr.model import *
+import functools
 
-# from flask import (
-#     Blueprint, flash, g, redirect, render_template, request, session, url_for
-# )
-# from werkzeug.security import check_password_hash, generate_password_hash
+from flask import (
+    Blueprint, flash, g, redirect, render_template, request, session, url_for
+)
+from werkzeug.security import check_password_hash, generate_password_hash
 
-# from flaskr.db import get_db
 
-# bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-# @bp.route('/register', methods=('GET', 'POST'))
-# def register():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         db = get_db()
-#         error = None
+bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-#         if not username:
-#             error = 'Username is required.'
-#         elif not password:
-#             error = 'Password is required.'
+@bp.route('/register', methods=('GET', 'POST'))
+def register():
+    form = RegForm()
+    print(form.email.data)
 
-#         if error is None:
-#             try:
-#                 db.execute(
-#                     "INSERT INTO user (username, password) VALUES (?, ?)",
-#                     (username, generate_password_hash(password)),
-#                 )
-#                 db.commit()
-#             except db.IntegrityError:
-#                 error = f"User {username} is already registered."
-#             else:
-#                 return redirect(url_for("auth.login"))
-
-#         flash(error)
-
-#     return render_template('auth/register.html')
+    if request.method == 'POST':
+        if form.validate():
+            existing_user = Company.objects(email=form.email.data).first()
+            if existing_user is None:
+                hashpass = generate_password_hash(form.password.data, method='sha256')
+                hey = Company(email=form.email.data,password=hashpass).save()
+                # login_user(hey)
+                return "Register complete"
+            else:
+                error = f"User {form.email.data} is already registered."
+                flash(error)
+    return render_template('register.html', form=form)

@@ -1,7 +1,7 @@
 import os
-from Model import Client
 from flask import Flask
 from flask_mongoengine import MongoEngine
+from flask_login import LoginManager
 
 
 def create_app(test_config=None):
@@ -33,15 +33,16 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # login_manager = LoginManager()
+    # login_manager.init_app(app)
+    # login_manager.login_view = 'login'
+
     # a simple page that says hello
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
-    @app.route('/create_client')
-    def create_client():
-        Client.create()
-        return "yes"
-    # from . import auth
-    # app.register_blueprint(auth.bp)
+
+    from . import auth
+    app.register_blueprint(auth.bp)
     
     return app

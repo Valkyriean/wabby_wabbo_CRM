@@ -6,6 +6,11 @@ from flaskr.login import login_manager
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+@bp.route('/1', methods=('GET', 'POST'))
+def test():
+    Company(email="test",password="1").save()
+    return "Yes"
+
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     form = RegForm()

@@ -21,7 +21,7 @@ def register():
                 return redirect(url_for('auth.dashboard'))
             else:
                return f"User {form.email.data} is already registered.", 400
-    return render_template('test/register.html', form=form)
+    return render_template('register.html', form=form)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -39,12 +39,12 @@ def login():
                 if check_password_hash(check_user['password'], form.password.data):
                     login_user(check_user)
                     return redirect(url_for('auth.dashboard'))
-    return render_template('test/login.html', form=form)
+    return render_template('login.html', form=form)
 
 @bp.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('test/dashboard.html', name=current_user.email)
+    return render_template('dashboard.html', name=current_user.email)
 
 @bp.route('/logout', methods = ['GET'])
 @login_required

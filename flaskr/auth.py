@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-from flaskr.db_models.auth_model import Company, RegForm
+from flaskr.db_models.auth_model import Company
 from flaskr.setup import login_manager
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -13,23 +13,28 @@ def test():
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
-    form = RegForm()
-    print(form.email)
-    print(form.password.data)
-    print(form.validate())
     if request.method == 'POST':
-        # if form.validate():
-        existing_user = Company.objects(email=form.email.data).first()
-        if existing_user is None:
-            hashpass = generate_password_hash(form.password.data, method='sha256')
-            hey = Company(email=form.email.data,password=hashpass).save()
-            login_user(hey)
-            return redirect(url_for('auth.dashboard'))
-        else:
-            return f"User {form.email.data} is already registered.", 400
-        # else:
-        #     return "invalid", 400
-    return render_template('register.html', form=form)
+        email = request.form['email']
+        password = request.form['password']
+        error = None
+        if not email:
+            error = 'Email is required.'
+        elif not password:
+            error = 'Password is required.'
+        if error is None:
+            existing_user = Company.objects(email=email).first()
+            if existing_user is None:
+                comp = Company()
+                comp.email = email
+                comp.password = generate_password_hash(password)
+                hey = comp.save()
+                print(hey)
+                login_user(hey)
+                return redirect(url_for('auth.dashboard'))
+            else:
+                error = 'Email already registered.'
+        return {'error':error}
+    return render_template('register.html')
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -39,15 +44,20 @@ def load_user(user_id):
 def login():
     if current_user.is_authenticated == True:
         return redirect(url_for('auth.dashboard'))
-    form = RegForm()
     if request.method == 'POST':
-        if form.validate():
-            check_user = Company.objects(email=form.email.data).first()
-            if check_user:
-                if check_password_hash(check_user['password'], form.password.data):
-                    login_user(check_user)
-                    return redirect(url_for('auth.dashboard'))
-    return render_template('login.html', form=form)
+        email = request.form['email']
+        password = request.form['password']
+        error = None 
+        user = Company.objects(email=email).first()
+        if user is None:
+            error = 'Incorrect email.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+        if error is None:
+            login_user(user)
+            return redirect(url_for('auth.dashboard'))
+        return {'error':error}
+    return render_template('login.html')
 
 @bp.route('/dashboard')
 @login_required

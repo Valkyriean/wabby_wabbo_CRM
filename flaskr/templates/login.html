@@ -15,6 +15,7 @@
     
 	<main class="form-signin">
 	  <form action="/auth/login" method="post">
+		
 		<h1 class="h3 mb-3 fw-normal">Sign in to</h1>
 		<h1 class="h3 mb-3 fw-normal">Wabby Wabbo CRM</h1>
 		<div class="form-floating">
@@ -31,6 +32,15 @@
 			<input type="checkbox" value="remember-me"> Remember me
 		  </label>
 		</div>
+		{% with errors = get_flashed_messages() %}
+			{% if errors %}
+				{% for error in errors %}
+					<div class="alert alert-danger" role="alert">
+						<strong>{{ error }}</strong>
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
 		<button class="w-100 btn btn-lg btn-primary" type="submit" value="Login">Sign in</button>
 	  </form>
 	</main>

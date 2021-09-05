@@ -33,7 +33,7 @@ def register():
                 return redirect(url_for('auth.dashboard'))
             else:
                 error = 'Email already registered.'
-        return {'error':error}
+        flash(error)
     return render_template('register.html')
 
 @login_manager.user_loader
@@ -56,7 +56,7 @@ def login():
         if error is None:
             login_user(user)
             return redirect(url_for('auth.dashboard'))
-        return {'error':error}
+        flash(error)
     return render_template('login.html')
 
 @bp.route('/dashboard')

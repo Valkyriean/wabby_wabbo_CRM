@@ -34,6 +34,15 @@
 		<label class = "alert alert-danger  w-100" id="passwordConInstruction"  style="text-align: center; padding: 5px; margin-bottom: 10px;" hidden>Two password are different.</label>
         <label class = "alert alert-success w-100" id="passwordConCorrect"      style="text-align: center; padding: 5px; margin-bottom: 10px;">Two password are same.</label>
 		<br>
+		{% with errors = get_flashed_messages() %}
+			{% if errors %}
+				{% for error in errors %}
+					<div class="alert alert-danger" role="alert">
+						<strong>{{ error }}</strong>
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
 		<button id="btnSubmit" class="w-100 btn btn-lg btn-primary" type="submit" disabled = true>Register</button>
 	  </form>
 	</main>

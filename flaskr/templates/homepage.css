@@ -1,0 +1,42 @@
+*{
+  margin:0;
+  padding:0;
+}
+
+.wrapper{
+  width: 1170px;
+  margin:auto;
+}
+
+header{
+  background: linear-gradient(rgba(0,0,0,0,6), rgba(0,0,0,0,6)), url("flaskr/static/logo.png"); 
+  height: 100 vh;
+  -webkit-background:cover;
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+}
+
+.nav-area{
+  float: right;
+  list-style: none;
+  margin-top: 30px;
+}
+
+.nav-area li a{
+  color: #000;
+  text-decoration: 5px 20px;
+  font-family: poppings;
+  font-size: :32px;
+}
+
+.nav-area li a:hover{
+  background:#000;
+  color: #333;
+}
+
+.logo{
+  width: 100px;
+  float: left;
+  height: auto;
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset = "UTF-8">
+        <title>Wabby Wabbo CRM</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}" 
+    </head>
+    <body>
+        <header>
+            <div class = "wrapper">
+                <div class = "logo">
+                    <img src = "{{ url_for('static', filename='logo.png') }}" alt = "">
+                </div>
+                <ul class = "nav-area">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Database</a></li>
+                    <li><a href="#">My Form</a></li>
+                    <li><a href="#">My client</a></li>
+                </ul>
+            </div>
+        </header>
+    </body>
+</html>

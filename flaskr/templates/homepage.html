@@ -3,13 +3,13 @@
     <head>
         <meta charset = "UTF-8">
         <title>Wabby Wabbo CRM</title>
-        <link rel="stylesheet" href="homepage.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}" 
     </head>
     <body>
         <header>
             <div class = "wrapper">
                 <div class = "logo">
-                    <img src = "flaskr/static/logo.png" alt = "">
+                    <img src = "{{ url_for('static', filename='logo.png') }}" alt = "">
                 </div>
                 <ul class = "nav-area">
                     <li><a href="#">Home</a></li>

@@ -9,7 +9,7 @@
 }
 
 header{
-  background: linear-gradient(rgba(0,0,0,0,6), rgba(0,0,0,0,6)), url("flaskr/static/logo.png"); 
+  background: linear-gradient(rgba(0,0,0,0,6), rgba(0,0,0,0,6)), url("{{ url_for('static', filename='logo.png') }}"); 
   height: 100 vh;
   -webkit-background:cover;
   background-size: cover;
@@ -27,7 +27,7 @@ header{
   color: #000;
   text-decoration: 5px 20px;
   font-family: poppings;
-  font-size: :32px;
+  font-size: 32px;
 }
 
 .nav-area li a:hover{

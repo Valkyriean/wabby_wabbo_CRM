@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flaskr.setup import login_manager, db
 
 def create_app(test_config=None):
@@ -33,9 +33,10 @@ def create_app(test_config=None):
     login_manager.login_view = 'login'
 
     # a simple page that says hello
-    @app.route('/hello')
+    @app.route('/')
     def hello():
-        return 'Hello, World!'
+        return render_template('homepage.html')
+
 
     from . import auth
     app.register_blueprint(auth.bp)

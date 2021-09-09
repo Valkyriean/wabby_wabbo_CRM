@@ -1,0 +1,1 @@
+under the wabby_wabbo_CRM folder, execute command 'pytest'

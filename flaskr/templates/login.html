@@ -11,39 +11,51 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" >
 
   </head>
-  <body class="text-center">
-    
-	<main class="form-signin">
-	  <form action="/auth/login" method="post">
+	<body class="text-center">
 		
-		<h1 class="h3 mb-3 fw-normal">Sign in to</h1>
-		<h1 class="h3 mb-3 fw-normal">Wabby Wabbo CRM</h1>
-		<div class="form-floating">
-		  <input class="form-control" id="email" name="email" required="" type="text" placeholder="name@example.com">
-		  <label for="floatingInput">Email address</label>
-		</div>
-		<div class="form-floating">
-		  <input class="form-control" id="password" name="password" required="" type="password" placeholder="Password">
-		  <label for="floatingPassword">Password</label>
-		</div>
+		<main class="form-signin">
+		<form action="/auth/login" method="post">
+			
+			<h1 class="h3 mb-3 fw-normal">Sign in to</h1>
+			<h1 class="h3 mb-3 fw-normal">Wabby Wabbo CRM</h1>
+			<div class="form-floating">
+			<input class="form-control" id="email" name="email" required="" type="text" placeholder="name@example.com">
+			<label for="floatingInput">Email address</label>
+			</div>
+			<div class="form-floating">
+			<input class="form-control" id="password" name="password" required="" type="password" placeholder="Password">
+			<label for="floatingPassword">Password</label>
+			</div>
 
-		<div class="checkbox mb-3">
-		  <label>
-			<input type="checkbox" value="remember-me"> Remember me
-		  </label>
-		</div>
-		{% with errors = get_flashed_messages() %}
-			{% if errors %}
-				{% for error in errors %}
-					<div class="alert alert-danger" role="alert">
-						<strong>{{ error }}</strong>
-					</div>
-				{% endfor %}
-			{% endif %}
-		{% endwith %}
-		<button class="w-100 btn btn-lg btn-primary" type="submit" value="Login">Sign in</button>
-	  </form>
-	</main>
+			<div class="checkbox mb-3">
+			<label>
+				<input type="checkbox" id="rememberMebox" onclick="doYouRemember()"> Remember me
+				<input type='hidden'   id="rememberMe" name="rememberMe" value=0>
+			</label>
+			</div>
+			{% with errors = get_flashed_messages() %}
+				{% if errors %}
+					{% for error in errors %}
+						<div class="alert alert-danger" role="alert">
+							<strong>{{ error }}</strong>
+						</div>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			<button class="w-100 btn btn-lg btn-primary" type="submit" value="Login">Sign in</button>
+		</form>
+		</main>
 
-  </body>
+	</body>
+
+  	<script>
+		function doYouRemember(){
+			if(document.getElementById("rememberMebox").checked){
+				document.getElementById("rememberMe").value = 1;
+			} else {
+				document.getElementById("rememberMe").value = 0;
+			}
+
+		}
+	</script>
 </html>

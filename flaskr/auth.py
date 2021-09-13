@@ -16,6 +16,7 @@ def register():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        remember = request.form['remember-me']
         error = None
         if not email:
             error = 'Email is required.'
@@ -28,8 +29,7 @@ def register():
                 comp.email = email
                 comp.password = generate_password_hash(password)
                 hey = comp.save()
-                print(hey)
-                login_user(hey)
+                login_user(hey, remember=remember)
                 return redirect(url_for('auth.dashboard'))
             else:
                 error = 'Email already registered.'

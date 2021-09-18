@@ -1,12 +1,12 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, send_file
 from flaskr.setup import login_manager, db
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        SECRET_KEY='nana7mi',
     )
     app.config['MONGODB_SETTINGS'] = {
         "db": "crm",
@@ -33,12 +33,23 @@ def create_app(test_config=None):
     login_manager.login_view = 'auth.login'
 
     # a simple page that says hello
-    @app.route('/')
-    def hello():
+    @app.route('/', methods= ["GET"])
+    def index():
         return render_template('homepage.html')
 
 
+    @app.route('/js/<filename>', methods=["GET"])
+    def get_js(filename):
+        return send_file('/path/to/js/{0}'.format(filename))
+
+    @app.route('/css/<filename>', methods=["GET"])
+    def get_css(filename):
+        return send_file('/path/to/css/{0}'.format(filename))
+
+    # @app.route('/', methods=["GET"])
+    # def get_index():
+    #     return send_file('index.html')
+
     from . import auth
     app.register_blueprint(auth.bp)
-    
     return app

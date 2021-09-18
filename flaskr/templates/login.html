@@ -29,8 +29,7 @@
 
 			<div class="checkbox mb-3">
 			<label>
-				<input type="checkbox" id="rememberMebox" onclick="doYouRemember()"> Remember me
-				<input type='hidden'   id="rememberMe" name="rememberMe" value=0>
+				<input type="checkbox" id="rememberMe" name="rememberMe" onclick="doYouRemember()" value=0> Remember me
 			</label>
 			</div>
 			{% with errors = get_flashed_messages() %}
@@ -50,7 +49,7 @@
 
   	<script>
 		function doYouRemember(){
-			if(document.getElementById("rememberMebox").checked){
+			if(document.getElementById("rememberMe").checked){
 				document.getElementById("rememberMe").value = 1;
 			} else {
 				document.getElementById("rememberMe").value = 0;

@@ -10,7 +10,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/
@@ -151,7 +151,7 @@ instance/
 .coverage
 htmlcov/
 
-dist/
+# dist/
 build/
 *.egg-info/
 

@@ -33,22 +33,31 @@ def create_app(test_config=None):
     login_manager.login_view = 'auth.login'
 
     # a simple page that says hello
-    @app.route('/', methods= ["GET"])
-    def index():
-        return render_template('homepage.html')
+    # @app.route('/', methods= ["GET"])
+    # def index():
+    #     return render_template('homepage.html')
 
+
+    @app.route('/', methods=["GET"])
+    def get_index():
+        return send_file('./static/dist/index.html')
 
     @app.route('/js/<filename>', methods=["GET"])
     def get_js(filename):
-        return send_file('/path/to/js/{0}'.format(filename))
+        return send_file('./static/dist/js/{0}'.format(filename))
 
     @app.route('/css/<filename>', methods=["GET"])
     def get_css(filename):
-        return send_file('/path/to/css/{0}'.format(filename))
+        return send_file('./static/dist/css/{0}'.format(filename))
 
-    # @app.route('/', methods=["GET"])
-    # def get_index():
-    #     return send_file('index.html')
+    @app.route('/img/<filename>', methods=["GET"])
+    def get_img(filename):
+        return send_file('./static/dist/img/{0}'.format(filename))
+
+    @app.route('/favicon.ico', methods=["GET"])
+    def get_ico():
+        return send_file('./static/dist/favicon.ico')
+
 
     from . import auth
     app.register_blueprint(auth.bp)

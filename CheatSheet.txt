@@ -23,9 +23,9 @@ flask run
 Front end Vue:
 npm install -g @vue/cli
 npm install
-cd wabby_wabbo_crm
+cd frontend
 npm install
 
 Compile:
-cd wabby_wabbo_crm
+cd frontend
 npm run build

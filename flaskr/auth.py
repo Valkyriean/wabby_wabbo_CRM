@@ -7,10 +7,12 @@ from flaskr.setup import login_manager
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
 @bp.route('/1', methods=('GET', 'POST'))
 def test():
-    Company(email="test",password="1").save()
+    Company(email="test", password="1").save()
     return "Yes"
+
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -36,9 +38,11 @@ def register():
         flash(error)
     return render_template('register.html')
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return Company.objects(pk=user_id).first()
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,7 +52,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
         rememberMe = (request.form['rememberMe'] == "1")
-        error = None 
+        error = None
         user = Company.objects(email=email).first()
         if user is None:
             error = 'Incorrect email.'
@@ -60,12 +64,14 @@ def login():
         flash(error)
     return render_template('login.html')
 
+
 @bp.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html', name=current_user.email)
 
-@bp.route('/logout', methods = ['GET'])
+
+@bp.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()

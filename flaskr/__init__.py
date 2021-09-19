@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, send_file
 from flaskr.setup import login_manager, db
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -12,7 +13,6 @@ def create_app(test_config=None):
         "db": "crm",
         'host': 'localhost',
         'port': 27017
-
     }
 
     if test_config is None:
@@ -37,7 +37,6 @@ def create_app(test_config=None):
     # def index():
     #     return render_template('homepage.html')
 
-
     @app.route('/', methods=["GET"])
     def get_index():
         return send_file('./static/dist/index.html')
@@ -57,7 +56,6 @@ def create_app(test_config=None):
     @app.route('/favicon.ico', methods=["GET"])
     def get_ico():
         return send_file('./static/dist/favicon.ico')
-
 
     from . import auth
     app.register_blueprint(auth.bp)

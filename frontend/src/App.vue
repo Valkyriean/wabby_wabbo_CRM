@@ -1,18 +1,21 @@
 <template>
   <div id="app">
+    <Nav />
     <img alt="Vue logo" src="./assets/logo.png">
-    <Login />
+    <!-- <Login /> -->
   </div>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import Login from './components/Login.vue'
+// import Login from './components/Login.vue'
+import Nav from './components/Nav.vue'
 
 export default {
   name: 'App',
   components: {
-    Login
+    // Login,
+    Nav
   }
 }
 </script>

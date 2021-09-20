@@ -11,4 +11,4 @@ REM call flask dbcreate
 call venv\Scripts\activate
 call set FLASK_APP=flaskr
 call set FLASK_ENV=development
-call flask run
+call flask run --host=0.0.0.0

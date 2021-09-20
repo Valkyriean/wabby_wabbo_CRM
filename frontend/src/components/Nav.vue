@@ -7,12 +7,12 @@
             View Forms
         </Menu.Item>
         <Menu.Item key="login">
-            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+            <a target="_self" href="/app/login" rel="noopener noreferrer">
             Login
             </a>
         </Menu.Item>
         <Menu.Item key="register">
-            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+            <a target="_self" href="https://ant.design" rel="noopener noreferrer">
             Register
             </a>
         </Menu.Item>

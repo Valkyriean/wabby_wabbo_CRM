@@ -79,7 +79,7 @@ export default {
         }
       console.log("hello")
       this.axios
-          .post("http://127.0.0.1:5000/auth/login", {"email":values.userName,"password":values.password,"rememberMe":"True"})
+          .post("/auth/login", {"email":values.userName,"password":values.password,"rememberMe":"True"})
           .then(response => {
               console.log(response.data)
           });

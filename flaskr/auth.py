@@ -32,7 +32,7 @@ def register():
                 comp.password = generate_password_hash(password)
                 hey = comp.save()
                 login_user(hey)
-                return redirect(url_for('auth.dashboard'))
+                return {"status":"success"}
             else:
                 error = 'Email already registered.'
         flash(error)

@@ -33,13 +33,13 @@ def create_app(test_config=None):
     login_manager.login_view = 'auth.login'
 
     # a simple page that says hello
-    # @app.route('/', methods= ["GET"])
-    # def index():
-    #     return render_template('homepage.html')
+    @app.route('/', methods= ["GET"])
+    def index():
+        return render_template('homepage.html')
 
-    @app.route('/', methods=["GET"])
-    def get_index():
-        return send_file('./static/dist/index.html')
+    # @app.route('/', methods=["GET"])
+    # def get_index():
+    #     return send_file('./static/dist/index.html')
 
     @app.route('/js/<filename>', methods=["GET"])
     def get_js(filename):

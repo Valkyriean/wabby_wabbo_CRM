@@ -11,12 +11,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
+    - run: echo "Hello world."
     - uses: actions/checkout@v2
-    
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:

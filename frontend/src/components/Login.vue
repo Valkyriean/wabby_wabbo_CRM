@@ -108,6 +108,7 @@ export default {
           console.log('Received values of form: ', values);
         }
       console.log("hello")
+      values.rememberMe = false;
       this.axios
           .post("http://192.168.0.4:5000/auth/login", {"email":values.userName,"password":values.password,"rememberMe":values.rememberMe})
           .then(response => {

@@ -39,7 +39,6 @@ def load_user(user_id):
 
 @bp.route('/login', methods=['POST'])
 def login():
-    print(current_user.pk)
     if current_user.is_authenticated == True:
         return jsonify({"status": "Already logged in"})
     json_data = request.json
@@ -69,3 +68,39 @@ def login():
 def logout():
     logout_user()
     return jsonify({"status": "Success"})
+
+
+@bp.route('/changepass', methods=['POST'])
+@login_required
+def change_password():
+    json_data = request.json
+    password = json_data['password']
+    new_password = json_data['new_password']
+    error = None
+    user = Company.objects(pk=current_user.pk).first()
+    if user is None:
+        error = 'User not exist.'
+    elif not check_password_hash(user['password'], password):
+        error = 'Incorrect password.'
+    if error is None:
+        user.password=(generate_password_hash(new_password))
+        user.save()
+        return jsonify({"status": "Success"})
+    return jsonify({"status": error})
+
+
+@bp.route('/deleteaccount', methods=['POST'])
+@login_required
+def delete_account():
+    json_data = request.json
+    password = json_data['password']
+    error = None
+    user = Company.objects(pk=current_user.pk).first()
+    if user is None:
+        error = 'User not exist.'
+    elif not check_password_hash(user['password'], password):
+        error = 'Incorrect password.'
+    if error is None:
+        user.delete()
+        return jsonify({"status": "Success"})
+    return jsonify({"status": error})

@@ -1,11 +1,10 @@
 import mongoengine as me
-from flask_login import UserMixin
 import jwt
 import datetime
 from secret import SECRET_KEY
 
 
-class Company(UserMixin, me.Document):
+class Company(me.Document):
     # name = me.StringField(required=True, max_length=100)
     email = me.StringField(required=True, max_length=30)
     password = me.StringField()
@@ -45,7 +44,7 @@ class Form(me.DynamicDocument):
     companyId = me.StringField(required=True)
 
 
-class Filled(me.DynamicDocument):
+class Response(me.DynamicDocument):
     company = me.StringField(required=True, max_length=30)
     formId = me.StringField(required=True)
     name = me.StringField(required=True)

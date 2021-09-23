@@ -1,8 +1,5 @@
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
-from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, login_required, logout_user, current_user
-from flaskr.dbmodels import Company, decode_auth_token
-from flaskr.dbmodels import Form, Filled
+from flask import Blueprint, request, jsonify
+from flaskr.dbmodels import decode_auth_token,Form, Response
 
 
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
@@ -26,7 +23,7 @@ def create_form():
     form.save()
     return jsonify({"status": "Success"})
 
-    
+
 @bp.route('/', methods=['POST'])
 def homepage():
     json_data = request.json
@@ -34,26 +31,29 @@ def homepage():
     comp = decode_auth_token(token)
     if isinstance(comp, str):
         return jsonify({"status": comp})
-    forms = Form.objects(companyId = comp.pk)
+    forms = Form.objects(companyId=str(comp.pk))
     return jsonify(forms)
 
 
 @bp.route('/deleteform', methods=['POST'])
 def delete_form():
     json_data = request.json
-    formId = json_data['id']
     token = json_data["jwt"]
     comp = decode_auth_token(token)
+    formId = json_data['id']
     if isinstance(comp, str):
         return jsonify({"status": comp})
-    form = Form.objects(compaynId = comp.pk, formId = formId)
+    form = Form.objects(pk=formId).first()
     if form is None:
         return jsonify({"status": "Delete Failed"})
+    if form.companyId != str(comp.pk):
+        return jsonify({"status": "Unauthorized"})
     form.delete()
     return jsonify({"status": "Success"})
 
-@bp.route('/updataform', methods=['POST'])
-def updata_form():
+
+@bp.route('/updateform', methods=['POST'])
+def update_form():
     json_data = request.json
     formId = json_data['id']
     new_field_list = json_data['field_list']
@@ -61,14 +61,11 @@ def updata_form():
     comp = decode_auth_token(token)
     if isinstance(comp, str):
         return jsonify({"status": comp})
-    form = Form.objects(compaynId = comp.pk, formId = formId)
+    form = Form.objects(pk=formId).first()
     if form is None:
         return jsonify({"status": "Updata Failed, form is not exist"})
-    form.field_list = new_field_list 
+    if form.companyId != str(comp.pk):
+        return jsonify({"status": "Unauthorized"})
+    form.field_list = new_field_list
     form.save()
     return jsonify({"status": "Success"})
-
-
-
-
-

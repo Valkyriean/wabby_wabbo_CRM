@@ -32,7 +32,7 @@ def create_app(test_config=None):
 
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = 'auth.unauthorized'
 
     @app.route('/', methods=["GET"])
     def get_index():
@@ -56,4 +56,6 @@ def create_app(test_config=None):
 
     from . import auth
     app.register_blueprint(auth.bp)
+    from . import dashboard
+    app.register_blueprint(dashboard.bp)
     return app

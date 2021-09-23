@@ -57,6 +57,11 @@ def login():
     return jsonify({"status": error})
 
 
+@bp.route('/unauthorized', methods=['GET'])
+def unauthorized():
+    return jsonify({"status": "unauthorized"})
+
+
 # @bp.route('/dashboard')
 # @login_required
 # def dashboard():

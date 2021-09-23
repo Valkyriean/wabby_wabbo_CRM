@@ -1,45 +1,72 @@
 <template>
-  <a-form layout="inline" :form="form" @submit="handleSubmit">
-    <a-form-item :validate-status="userNameError() ? 'error' : ''" :help="userNameError() || ''">
-      <a-input
-        v-decorator="[
-          'userName',
-          { rules: [{ required: true, message: 'Please input your username!' }] },
-        ]"
-        placeholder="Username"
-      >
-        <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
-      </a-input>
-    </a-form-item>
-    <a-form-item 
-      :validate-status="passwordError() ? 'error' : ''" 
-      :help="passwordError() || ''"
-    >
-      <a-input
-        v-decorator="[
-          'password',
-          { rules: [{ required: true, message: 'Please input your Password!' }] },
-        ]"
-        type="password"
-        placeholder="Password"
-      >
-        <a-icon 
-          slot="prefix" 
-          type="lock" 
-          style="color:rgba(0,0,0,.25)" 
-        />
-      </a-input>
-    </a-form-item>
-    <a-form-item>
-      <a-button 
-        type="primary" 
-        html-type="submit" 
-        :disabled="hasErrors(form.getFieldsError())" 
-      >
-        Log in
-      </a-button>
-    </a-form-item>
-  </a-form>
+  <body>
+    <main class = "login-form">
+      <h2> Sign in to </h2>
+			<h2> Wabby Wabbo CRM </h2>
+      <a-form layout="inline" :form="form" @submit="handleSubmit">  
+        <a-row type="flex" justify="center" align="middle" :span="12">
+          <a-form-item 
+            class = "input"
+            :validate-status="userNameError() ? 'error' : ''" 
+            :help="userNameError() || ''"
+          >
+            <a-input
+              v-decorator="[
+                'userName',
+                { rules: [{ required: true, message: 'Please input your username!' }] },
+              ]"
+              placeholder="Username"
+            >
+              <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+            </a-input>
+          </a-form-item>
+        </a-row>
+        <a-row type="flex" justify="center" align="middle" :span="12">
+          <a-form-item 
+            :validate-status="passwordError() ? 'error' : ''" 
+            :help="passwordError() || ''"
+          >
+            <a-input
+              v-decorator="[
+                'password',
+                { rules: [{ required: true, message: 'Please input your Password!' }] },
+              ]"
+              type="password"
+              placeholder="Password"
+            >
+              <a-icon 
+                slot="prefix" 
+                type="lock" 
+                style="color:rgba(0,0,0,.25)" 
+              />
+            </a-input>
+          </a-form-item>
+        </a-row>
+        <a-row type="flex" justify="center" align="middle" :span="12">
+        <a-form-item label="Remember me">
+          <a-switch 
+            v-decorator="['rememberMe', { valuePropName: 'checked' }]"
+            default-checked 
+            @change="getRememberMe"
+          />
+        </a-form-item>
+        </a-row>
+        <a-row type="flex" justify="center" align="middle" :span="12">
+          <a-form-item
+          >
+            <a-button 
+              type="primary" 
+              html-type="submit" 
+              :disabled="hasErrors(form.getFieldsError())" 
+            >
+              Log in
+            </a-button>
+          </a-form-item>
+        </a-row>
+        
+      </a-form>
+    </main>
+  </body>
 </template>
 
 <script>
@@ -71,6 +98,9 @@ export default {
       const { getFieldError, isFieldTouched } = this.form;
       return isFieldTouched('password') && getFieldError('password');
     },
+    getRememberMe(checked) {
+      console.log(`Remember me switch to ${checked}`);
+    },
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
@@ -79,7 +109,7 @@ export default {
         }
       console.log("hello")
       this.axios
-          .post("/auth/login", {"email":values.userName,"password":values.password,"rememberMe":"True"})
+          .post("http://192.168.0.4:5000/auth/login", {"email":values.userName,"password":values.password,"rememberMe":values.rememberMe})
           .then(response => {
               console.log(response.data)
           });
@@ -88,3 +118,25 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+h2 {
+  text-align: center
+}
+
+</style>

@@ -39,7 +39,6 @@ def load_user(user_id):
 
 @bp.route('/login', methods=['POST'])
 def login():
-    print(current_user.pk)
     if current_user.is_authenticated == True:
         return jsonify({"status": "Already logged in"})
     json_data = request.json

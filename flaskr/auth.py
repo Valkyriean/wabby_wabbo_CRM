@@ -1,8 +1,6 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, login_required, logout_user, current_user
-from flaskr.db_models.auth_model import Company
-from flaskr.setup import login_manager
+from flaskr.dbmodels import *
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -24,42 +22,40 @@ def register():
             comp = Company()
             comp.email = email
             comp.password = generate_password_hash(password)
-            hey = comp.save()
-            login_user(hey)
-            return jsonify({"status": "Success"})
+            comp.save()
+            token = encode_auth_token(str(comp.pk))
+            return jsonify({"status": "Success", "jwt": token})
+
         else:
             error = 'Email already registered.'
     return jsonify({"status": error})
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return Company.objects(pk=user_id).first()
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return Company.objects(pk=user_id).first()
 
 
 @bp.route('/login', methods=['POST'])
 def login():
-    if current_user.is_authenticated == True:
-        return jsonify({"status": "Already logged in"})
     json_data = request.json
     email = json_data['email']
     password = json_data['password']
-    rememberMe = (json_data['rememberMe'] == "True")
     error = None
-    user = Company.objects(email=email).first()
-    if user is None:
+    comp = Company.objects(email=email).first()
+    if comp is None:
         error = 'Incorrect email.'
-    elif not check_password_hash(user['password'], password):
+    elif not check_password_hash(comp['password'], password):
         error = 'Incorrect password.'
     if error is None:
-        login_user(user, remember=rememberMe)
-        return jsonify({"status": "Success"})
+        token = encode_auth_token(str(comp.pk))
+        return jsonify({"status": "Success", "jwt": token})
     return jsonify({"status": error})
 
 
-@bp.route('/unauthorized', methods=['GET'])
-def unauthorized():
-    return jsonify({"status": "unauthorized"})
+# @bp.route('/unauthorized', methods=['GET'])
+# def unauthorized():
+#     return jsonify({"status": "unauthorized"})
 
 
 # @bp.route('/dashboard')
@@ -68,44 +64,48 @@ def unauthorized():
 #     return render_template('dashboard.html', name=current_user.email)
 
 
-@bp.route('/logout', methods=['POST'])
-@login_required
-def logout():
-    logout_user()
-    return jsonify({"status": "Success"})
+# @bp.route('/logout', methods=['POST'])
+# @login_required
+# def logout():
+#     logout_user()
+#     return jsonify({"status": "Success"})
 
 
 @bp.route('/changepass', methods=['POST'])
-@login_required
 def change_password():
     json_data = request.json
+    token = json_data["jwt"]
     password = json_data['password']
     new_password = json_data['new_password']
+    comp = decode_auth_token(token)
     error = None
-    user = Company.objects(pk=current_user.pk).first()
-    if user is None:
+    if isinstance(comp, str):
+        error = comp
+    elif comp is None:
         error = 'User not exist.'
-    elif not check_password_hash(user['password'], password):
+    elif not check_password_hash(comp['password'], password):
         error = 'Incorrect password.'
     if error is None:
-        user.password=(generate_password_hash(new_password))
-        user.save()
+        comp.password = (generate_password_hash(new_password))
+        comp.save()
         return jsonify({"status": "Success"})
     return jsonify({"status": error})
 
 
 @bp.route('/deleteaccount', methods=['POST'])
-@login_required
 def delete_account():
     json_data = request.json
+    token = json_data["jwt"]
     password = json_data['password']
+    comp = decode_auth_token(token)
     error = None
-    user = Company.objects(pk=current_user.pk).first()
-    if user is None:
+    if isinstance(comp, str):
+        error = comp
+    elif comp is None:
         error = 'User not exist.'
-    elif not check_password_hash(user['password'], password):
+    elif not check_password_hash(comp['password'], password):
         error = 'Incorrect password.'
     if error is None:
-        user.delete()
+        comp.delete()
         return jsonify({"status": "Success"})
     return jsonify({"status": error})

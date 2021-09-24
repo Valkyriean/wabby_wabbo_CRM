@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <Nav />
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Vue logo" src="./assets/logo.png" style="width:50px; height:50px;">
+    <Carousel />
     <!-- <Login /> -->
   </div>
 </template>
@@ -10,12 +11,13 @@
 // import HelloWorld from './components/HelloWorld.vue'
 // import Login from './components/Login.vue'
 import Nav from './components/Nav.vue'
+import Carousel from './components/Carousel.vue'
 
 export default {
   name: 'App',
   components: {
-    // Login,
-    Nav
+    Nav,
+    Carousel
   }
 }
 </script>

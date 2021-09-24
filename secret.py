@@ -1,0 +1,1 @@
+SECRET_KEY='nana7mi'

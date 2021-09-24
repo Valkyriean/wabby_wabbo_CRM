@@ -86,6 +86,9 @@ export default {
       // To disabled submit button at the beginning.
       this.form.validateFields();
     });
+    if ("rememberMeToken" in localStorage) {
+      //...
+    }
   },
   methods: {
     // Only show error after a field is touched.
@@ -112,12 +115,18 @@ export default {
       this.axios
           .post("http://192.168.0.4:5000/auth/login", {"email":values.userName,"password":values.password,"rememberMe":values.rememberMe})
           .then(response => {
-              console.log(response.data)
+              checkRes(response.data)
           });
       });
     },
   },
 };
+  function checkRes(res) {
+    if (res["status"] == "success") {
+      localStorage.setItem('rememberMeToken', 'Token From res!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      console.log("To Dashboard Logic!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
+  }
 </script>
 
 <style scoped>

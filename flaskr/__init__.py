@@ -34,6 +34,11 @@ def create_app(test_config=None):
     db.init_app(app)
 
 
+    @app.route('/', methods=["GET"])
+    def get_index():
+        return send_file('./static/dist/index.html')
+
+
     @app.route('/js/<filename>', methods=["GET"])
     def get_js(filename):
         return send_file('./static/dist/js/{0}'.format(filename))

@@ -1,5 +1,6 @@
 <template>
   <body>
+    <Nav />
     <main class="register-form">
       <h2>Sign up for</h2>
       <h2>Wabby Wabbo CRM</h2>
@@ -52,7 +53,7 @@
               ]"
               type="password"
               placeholder="Password"
-              @change="checkPassword"
+              @change="recordPassword"
             >
               <a-icon
                 slot="prefix"
@@ -87,7 +88,7 @@
               ]"
               type="password"
               placeholder="Confirm password"
-              @change="confirmPassword"
+              @change="recordConfirmPassword"
             >
               <a-icon
                 slot="prefix"
@@ -110,7 +111,7 @@
               html-type="submit"
               :disabled="hasErrors(form.getFieldsError())"
             >
-              Log in
+              Register
             </a-button>
           </a-form-item>
         </a-row>
@@ -120,16 +121,21 @@
 </template>
 
 <script>
+import Nav from "./Nav.vue";
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some((field) => fieldsError[field]);
 }
 export default {
   name: "Register",
+  components: {
+    Nav,
+  },
   data() {
     return {
       hasErrors,
       form: this.$form.createForm(this, { name: "horizontal_register" }),
       pwd: "",
+      cpwd: "",
     };
   },
   mounted() {
@@ -176,7 +182,7 @@ export default {
         console.log("hello");
         values.rememberMe = false;
         this.axios
-          .post("http://192.168.0.4:5000/auth/register", {
+          .post("/auth/register", {
             email: values.userName,
             password: values.password,
             rememberMe: values.rememberMe,
@@ -186,14 +192,20 @@ export default {
           });
       });
     },
-    checkPassword(e) {
+    recordPassword(e) {
+      this.pwd = e.target.value;
+      this.checkPassword();
+    },
+    recordConfirmPassword(e) {
+      this.cpwd = e.target.value;
+      this.checkPassword();
+    },
+    checkPassword() {
       const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
       var pswIns = document.getElementById("passwordInstruction");
-      var flag;
-
-      flag = false;
-
-      if (strongPassword.test(e.target.value)) {
+      var pswConIns = document.getElementById("passwordConInstruction");
+      var flag = false;
+      if (strongPassword.test(this.pwd)) {
         // password strong enough
         pswIns.style.display = "none";
         flag = true;
@@ -201,47 +213,27 @@ export default {
         pswIns.style.display = "block";
         flag = false;
       }
-
-      if (flag) {
-        return false;
-      } else {
-        this.pwd = e.target.value;
-        return true;
-      }
-    },
-    confirmPassword(e) {
-      var pswConIns = document.getElementById("passwordConInstruction");
-      var flag;
-
-      flag = false;
-
-      if (e.target.value == this.pwd) {
-        // password strong enough
+      if (this.cpwd == this.pwd) {
+        // password same
         pswConIns.style.display = "none";
         flag = true;
       } else {
         pswConIns.style.display = "block";
         flag = false;
       }
-
-      if (flag) {
-        return false;
-      } else {
-        return true;
-      }
+      return flag;
     },
   },
 };
 
 function checkRes(res) {
   var incorrectEmail = document.getElementById("incorrectEmail");
-  var incorrectPassword = document.getElementById("incorrectPassword");
-  var incorrectConfirmPassword = document.getElementById(
-    "incorrectConfirmPassword"
-  );
+  var incorrectPassword = document.getElementById("passwordInstruction");
+  var incorrectConfirmPassword = document.getElementById("passwordConInstruction");
   incorrectEmail.style.display = "none";
   incorrectPassword.style.display = "none";
   incorrectConfirmPassword.style.display = "none";
+  console.log(res["status"]);
   if (res["status"] == "Success") {
     localStorage.setItem("rememberMeToken", res.jwt);
     window.location.href = "/app/dashboard";

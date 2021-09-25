@@ -1,5 +1,6 @@
 <template>
   <body>
+    <Nav />
     <main class="login-form">
       <h2>Sign in to</h2>
       <h2>Wabby Wabbo CRM</h2>
@@ -90,11 +91,15 @@
 </template>
 
 <script>
+import Nav from "./Nav.vue";
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some((field) => fieldsError[field]);
 }
 export default {
   name: "Login",
+  components: {
+    Nav,
+  },
   data() {
     return {
       hasErrors,
@@ -137,7 +142,7 @@ export default {
         console.log("hello");
         values.rememberMe = false;
         this.axios
-          .post("http://192.168.0.4:5000/auth/login", {
+          .post("/auth/login", {
             email: values.userName,
             password: values.password,
             rememberMe: values.rememberMe,

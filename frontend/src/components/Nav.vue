@@ -10,6 +10,7 @@
       </div>
       <div class="t_contain">
         <div class="contain_center">
+          <a class="title_tag" href="/">Home</a>
           <a class="title_tag" href="/app/login">Login</a>
           <a class="title_tag" href="/app/register">Register</a>
         </div>
@@ -59,7 +60,7 @@ export default {
   box-sizing: border-box;
   position: relative;
   top: -77%;
-  left: 60%;
+  left: 50%;
   background-color: rgba(0, 0, 0, 0);
   overflow-x: hidden;
 }

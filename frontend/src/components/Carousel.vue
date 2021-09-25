@@ -1,9 +1,9 @@
 <template>
   <a-carousel autoplay>
-    <div><h3>1</h3></div>
-    <div><h3>2</h3></div>
-    <div><h3>3</h3></div>
-    <div><h3>4</h3></div>
+      <img src="../assets/1.jpg" class="carousel-image"/>
+      <img src="../assets/2.jpg" class="carousel-image"/>
+      <img src="../assets/3.jpg" class="carousel-image"/>
+      <img src="../assets/4.jpg" class="carousel-image"/>
   </a-carousel>
 </template>
 <script>
@@ -13,13 +13,17 @@ export default {};
 /* For demo */
 .ant-carousel >>> .slick-slide {
   text-align: center;
-  height: 160px;
-  line-height: 160px;
+  height: 600px;
   background: #364d79;
   overflow: hidden;
 }
 
-.ant-carousel >>> .slick-slide h3 {
-  color: #fff;
+.ant-carousel >>> .slick-slide img {
+  display: block;
+  margin: auto;
+}
+
+.carousel-image {
+  width: 100%;
 }
 </style>

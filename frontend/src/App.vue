@@ -1,19 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo2.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <HelloWorld msg="Wabby wabbo"/>
-
+    <Menu /><Nav />
+    <Carousel />
+    <img alt="Vue logo" src="./assets/logo.png" style="width:300px; height:300px;">
+    
+    <!-- <Login /> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+// import Login from './components/Login.vue'
+import Nav from './components/Nav.vue'
+import Carousel from './components/Carousel.vue'
+import Menu from './components/Menu.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Nav,
+    Carousel,
+    Menu
   }
 }
 </script>

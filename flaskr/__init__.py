@@ -1,13 +1,15 @@
 import os
-from flask import Flask, render_template, send_file
-from flaskr.setup import login_manager, db
-
+from flask import Flask, send_file
+from flask_mongoengine import MongoEngine
+from flask_cors import CORS
+from secret import SECRET_KEY
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_mapping(
-        SECRET_KEY='nana7mi',
+        SECRET_KEY=SECRET_KEY,
     )
     app.config['MONGODB_SETTINGS'] = {
         "db": "crm",
@@ -28,14 +30,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    db = MongoEngine()
     db.init_app(app)
-    login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
-
-    # a simple page that says hello
-    @app.route('/', methods= ["GET"])
-    def index():
-        return render_template('homepage.html')
 
     # @app.route('/', methods=["GET"])
     # def get_index():
@@ -56,7 +52,13 @@ def create_app(test_config=None):
     @app.route('/favicon.ico', methods=["GET"])
     def get_ico():
         return send_file('./static/dist/favicon.ico')
+    @app.route('/app/<foo>', methods=["GET"])
+    def login(foo):
+        return send_file('./static/dist/index.html')
+    
 
     from . import auth
     app.register_blueprint(auth.bp)
+    from . import dashboard
+    app.register_blueprint(dashboard.bp)
     return app

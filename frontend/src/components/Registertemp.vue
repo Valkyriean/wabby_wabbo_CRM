@@ -116,7 +116,7 @@ export default {
     incorrectPassword.style.display = "none";
     incorrectConfirmPassword.style.display = "none";
     if ("rememberMeToken" in localStorage) {
-      console.log("To Dashboard Logic!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      window.location.href = "/app/dashboard";
     }
   },
   methods: {
@@ -178,18 +178,17 @@ export default {
     },
     confirmPassword(e) {
         console.log(e.target.value)
-      const strongPassword = new RegExp('(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})');
-      var pswIns = document.getElementById("passwordInstruction");
+      var pswConIns = document.getElementById("passwordConInstruction");
       var flag;
 
       flag = false;
       
-      if(strongPassword.test(e.target.value)){
+      if(e.target.value == data()["pwd"]){
         // password strong enough
-        pswIns.style.display = "none";
+        pswConIns.style.display = "none";
         flag = true;
       } else {
-        pswIns.style.display = "block";
+        pswConIns.style.display = "block";
         flag = false;
       }
 
@@ -213,7 +212,7 @@ export default {
     incorrectConfirmPassword.style.display = "none";
     if (res["status"] == "Success") {
       localStorage.setItem('rememberMeToken', res.jwt);
-      console.log("To Dashboard Logic!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      window.location.href = "/app/dashboard";
     } else {
       if (res["status"] == "Email already registered.") {
         incorrectEmail.style.display = "block";

@@ -33,9 +33,6 @@ def create_app(test_config=None):
     db = MongoEngine()
     db.init_app(app)
 
-    # @app.route('/', methods=["GET"])
-    # def get_index():
-    #     return send_file('./static/dist/index.html')
 
     @app.route('/js/<filename>', methods=["GET"])
     def get_js(filename):

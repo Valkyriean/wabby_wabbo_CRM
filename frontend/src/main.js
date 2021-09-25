@@ -29,7 +29,6 @@ const routes = {
   '/app/login': Login,
   '/app/register' : Register,
   '/app/dashboard' : Dashboard
-  
 }
 
 new Vue({

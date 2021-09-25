@@ -29,3 +29,8 @@ npm install
 Compile:
 cd frontend
 npm run build
+
+Testing frontend:
+npm run serve
+IN CASE OF SCRIPT IS NOT ENABLED ON THIS MACHINE:
+Set-ExecutionPolicy RemoteSigned

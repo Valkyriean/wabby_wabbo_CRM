@@ -6,8 +6,8 @@
       </div>
       <div class="t_contain">
         <div class="contain_center">
-          <div class="title_tag">Login</div>
-          <div class="title_tag">Register</div>
+          <a class="title_tag" href="/app/login">Login</a>
+          <a class="title_tag" href="/app/register">Register</a>
         </div>
       </div>
     </div>
@@ -47,7 +47,6 @@ export default {
   height: 100px;
   border: 1px solid white;
   box-sizing: border-box;
-  /* background-image: url(../assets/顶部背景.jpg); */
   background: white;
   position: fixed;
   top: 0%;
@@ -66,18 +65,14 @@ export default {
 }
 .t_contain {
   width: 100%;
-  /* height:10%; */
   height: 45px;
-  /* border:0px solid red; */
   margin-top: -1%;
   margin-bottom: 1%;
-  /* background:#161616; */
   opacity: 0.8;
   box-sizing: border-box;
-  /* background:#111B25; */
   position: relative;
   top: -77%;
-  left: 8%;
+  left: 60%;
   background-color: rgba(0, 0, 0, 0);
   overflow-x: hidden;
 }
@@ -85,9 +80,8 @@ export default {
 .contain_center {
   width: 80%;
   height: 45px;
-  /* line-height: 2.5rem; */
   margin: 0 auto;
-  text-align: center;
+  text-align: right;
 }
 .title_tag {
   width: 16.43%;

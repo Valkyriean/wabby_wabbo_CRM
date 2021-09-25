@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <Nav />
-    <Carousel class="carousel_top"/>
+    <div class="place-holder"/>
+    <Carousel />
     <img alt="Vue logo" src="./assets/logo.png" style="width:300px; height:300px;">
     
     <!-- <Login /> -->
@@ -30,9 +31,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-.carousel_top {
-  top: 20%;
+.place-holder {
+  height: 100px;
 }
 </style>

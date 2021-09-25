@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Menu /><Nav />
-    <Carousel />
+    <Nav />
+    <Carousel class="carousel_top"/>
     <img alt="Vue logo" src="./assets/logo.png" style="width:300px; height:300px;">
     
     <!-- <Login /> -->
@@ -13,14 +13,12 @@
 // import Login from './components/Login.vue'
 import Nav from './components/Nav.vue'
 import Carousel from './components/Carousel.vue'
-import Menu from './components/Menu.vue'
 
 export default {
   name: 'App',
   components: {
     Nav,
     Carousel,
-    Menu
   }
 }
 </script>
@@ -33,5 +31,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.carousel_top {
+  top: 20%;
 }
 </style>

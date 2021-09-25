@@ -24,47 +24,6 @@
           </a-form-item>
         </a-row>
         
-        
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            :class="{ 'is-invalid': errors.password }"
-            id="password"
-            v-model="details.password"
-            placeholder="Password"
-          />
-          <div class="invalid-feedback" v-if="errors.password">
-            {{ errors.password[0] }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="password_confirmation">Confirm password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password_confirmation"
-            v-model="details.password_confirmation"
-            placeholder="Confirm password"
-          />
-        </div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <a-row type="flex" justify="center" align="middle" :span="12">
           <a-form-item 
             :validate-status="passwordError() ? 'error' : ''" 
@@ -78,7 +37,7 @@
               ]"
               type="password"
               placeholder="Password"
-              :change="confirmPassword()"
+              @change="checkPassword"
             >
               <a-icon 
                 slot="prefix" 
@@ -86,8 +45,8 @@
                 style="color:rgba(0,0,0,.25)" 
               />
             </a-input>
-            <a-alert id = "passwordInstruction" type="error" message="Password should countain at least a letter, a number, and over 8 chars in length" />
           </a-form-item>
+          <a-alert id = "passwordInstruction" type="error" message="Password should countain at least a letter, a number, and over 8 chars in length" />
         </a-row>
         <a-row type="flex" justify="center" align="middle" :span="12">
           <a-form-item 
@@ -102,6 +61,7 @@
               ]"
               type="password"
               placeholder="Confirm password"
+              @change="confirmPassword"
             >
               <a-icon 
                 slot="prefix" 
@@ -109,8 +69,8 @@
                 style="color:rgba(0,0,0,.25)" 
               />
             </a-input>
-            <a-alert id = "passwordConInstruction" type="error" message="Two password are different." />
           </a-form-item>
+          <a-alert id = "passwordConInstruction" type="error" message="Two password are different." />
         </a-row>
         <a-row type="flex" justify="center" align="middle" :span="12">
           <a-form-item
@@ -141,6 +101,7 @@ export default {
     return {
       hasErrors,
       form: this.$form.createForm(this, { name: 'horizontal_register' }),
+      pwd: "",
     };
   },
   mounted() {
@@ -191,39 +152,56 @@ export default {
           });
       });
     },
-    confirmPassword() {
-    // const strongPassword = new RegExp('(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})');
-    // var pswIns = document.getElementById("passwordInstruction");
-    // var pswConIns = document.getElementById("passwordConInstruction");
-    var flag;
-    // var password = document.getElementById("password").value;
-    // var confirmPassword = document.getElementById("confirmpassword").value;
+    checkPassword(e) {
+      console.log(e.target.value)
+      const strongPassword = new RegExp('(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})');
+      var pswIns = document.getElementById("passwordInstruction");
+      var flag;
 
-    flag = false;
-    
-    // if(strongPassword.test(password)){
-      // password strong enough
-      // pswIns.style.display = "none";
-      flag = true;
-    // } else {
-      // pswIns.style.display = "block";
       flag = false;
-    // }
-    
-    // if(password == confirmPassword){
-      // pswConIns.style.display = "none";
-    // } else {
-      // pswConIns.style.display = "block";
+      
+      if(strongPassword.test(e.target.value)){
+        // password strong enough
+        pswIns.style.display = "none";
+        flag = true;
+      } else {
+        pswIns.style.display = "block";
+        flag = false;
+      }
+
+      if(flag) {
+        return false;
+      } else {
+        this.pwd = e.target.value
+        return true;
+      }
+    },
+    confirmPassword(e) {
+        console.log(e.target.value)
+      const strongPassword = new RegExp('(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})');
+      var pswIns = document.getElementById("passwordInstruction");
+      var flag;
+
       flag = false;
-    // }
-    
-    if(flag) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+      
+      if(strongPassword.test(e.target.value)){
+        // password strong enough
+        pswIns.style.display = "none";
+        flag = true;
+      } else {
+        pswIns.style.display = "block";
+        flag = false;
+      }
+
+      if(flag) {
+        return false;
+      } else {
+        this.pwd = e.target.value
+        return true;
+      }
+    },
   },
+  
 };
   
   function checkRes(res) {

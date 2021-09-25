@@ -94,7 +94,7 @@ export default {
     incorrectEmail.style.display = "none";
     incorrectPassword.style.display = "none";
     if ("rememberMeToken" in localStorage) {
-      console.log("To Dashboard Logic!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      window.location.href = "/app/dashboard";
     }
   },
   methods: {
@@ -135,7 +135,7 @@ export default {
     incorrectPassword.style.display = "none";
     if (res["status"] == "Success") {
       localStorage.setItem('rememberMeToken', res.jwt);
-      console.log("To Dashboard Logic!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      window.location.href = "/app/dashboard";
     } else {
       if (res["status"] == "Incorrect email.") {
         incorrectEmail.style.display = "block";

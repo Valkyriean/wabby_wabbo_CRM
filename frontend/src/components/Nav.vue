@@ -2,7 +2,11 @@
   <div>
     <div class="top">
       <div class="t_logo">
-        <img src="../assets/logo.png" alt="" style="width:110px; height:110px;"/>
+        <img
+          src="../assets/logo.png"
+          alt=""
+          style="width: 110px; height: 110px"
+        />
       </div>
       <div class="t_contain">
         <div class="contain_center">
@@ -11,31 +15,14 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </template>
 
 <script>
-
-    // <a-menu v-model="current" mode="horizontal">
-    //   <a-menu-item key="Login">
-    //     <a target="_self" href="/app/login" rel="noopener noreferrer"
-    //       >Login</a
-    //     >
-    //   </a-menu-item>
-    //   <a-menu-item key="register">
-    //     <a target="_self" href="/app/register" rel="noopener noreferrer"
-    //       >Register</a
-    //     >
-    //   </a-menu-item>
-    // </a-menu>
-
-
 export default {
   data() {
     return {
-      current: ['mail'],
+      current: ["mail"],
     };
   },
 };

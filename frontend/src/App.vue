@@ -1,10 +1,14 @@
 <template>
   <div id="app">
     <Nav />
-    <div class="place-holder"/>
+    <div class="place-holder" />
     <Carousel />
-    <img alt="Vue logo" src="./assets/logo.png" style="width:300px; height:300px;">
-    
+    <img
+      alt="Vue logo"
+      src="./assets/logo.png"
+      style="width: 300px; height: 300px"
+    />
+
     <!-- <Login /> -->
   </div>
 </template>
@@ -12,16 +16,16 @@
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 // import Login from './components/Login.vue'
-import Nav from './components/Nav.vue'
-import Carousel from './components/Carousel.vue'
+import Nav from "./components/Nav.vue";
+import Carousel from "./components/Carousel.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Nav,
     Carousel,
-  }
-}
+  },
+};
 </script>
 
 <style>

@@ -1,18 +1,18 @@
 <template>
   <div id="dashBoard">
     <Menu />
-    
+
     <!-- <Login /> -->
   </div>
 </template>
 
 <script>
-import Menu from './Menu.vue'
+import Menu from "./Menu.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Menu
-  }
-}
+    Menu,
+  },
+};
 </script>

@@ -109,12 +109,12 @@ export default {
       // To disabled submit button at the beginning.
       this.form.validateFields();
     });
-    var incorrectEmail = document.getElementById("incorrectEmail");
-    var incorrectPassword = document.getElementById("incorrectPassword");
-    var incorrectConfirmPassword = document.getElementById("incorrectConfirmPassword");
-    incorrectEmail.style.display = "none";
-    incorrectPassword.style.display = "none";
-    incorrectConfirmPassword.style.display = "none";
+    var incEmail = document.getElementById("incorrectEmail");
+    var pswIns = document.getElementById("passwordInstruction");
+    var pswConIns = document.getElementById("passwordConInstruction");
+    incEmail.style.display = "none";
+    pswIns.style.display = "none";
+    pswConIns.style.display = "none";
     if ("rememberMeToken" in localStorage) {
       window.location.href = "/app/dashboard";
     }
@@ -153,7 +153,6 @@ export default {
       });
     },
     checkPassword(e) {
-      console.log(e.target.value)
       const strongPassword = new RegExp('(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})');
       var pswIns = document.getElementById("passwordInstruction");
       var flag;
@@ -177,13 +176,12 @@ export default {
       }
     },
     confirmPassword(e) {
-        console.log(e.target.value)
       var pswConIns = document.getElementById("passwordConInstruction");
       var flag;
 
       flag = false;
       
-      if(e.target.value == data()["pwd"]){
+      if(e.target.value == this.pwd){
         // password strong enough
         pswConIns.style.display = "none";
         flag = true;
@@ -195,7 +193,6 @@ export default {
       if(flag) {
         return false;
       } else {
-        this.pwd = e.target.value
         return true;
       }
     },

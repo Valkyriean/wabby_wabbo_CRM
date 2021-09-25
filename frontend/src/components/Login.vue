@@ -10,6 +10,7 @@
             :validate-status="userNameError() ? 'error' : ''" 
             :help="userNameError() || ''"
           >
+            
             <a-input
               v-decorator="[
                 'userName',
@@ -19,6 +20,7 @@
             >
               <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
             </a-input>
+            <a-alert id = "incorrectEmail" type="error" message="Incorrect email." />
           </a-form-item>
         </a-row>
         <a-row type="flex" justify="center" align="middle" :span="12">
@@ -40,6 +42,7 @@
                 style="color:rgba(0,0,0,.25)" 
               />
             </a-input>
+            <a-alert id = "incorrectPassword" type="error" message="Incorrect password." />
           </a-form-item>
         </a-row>
         <a-row type="flex" justify="center" align="middle" :span="12">
@@ -86,8 +89,12 @@ export default {
       // To disabled submit button at the beginning.
       this.form.validateFields();
     });
+    var incorrectEmail = document.getElementById("incorrectEmail");
+    var incorrectPassword = document.getElementById("incorrectPassword");
+    incorrectEmail.style.display = "none";
+    incorrectPassword.style.display = "none";
     if ("rememberMeToken" in localStorage) {
-      //...
+      console.log("To Dashboard Logic!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
   },
   methods: {
@@ -122,9 +129,19 @@ export default {
   },
 };
   function checkRes(res) {
-    if (res["status"] == "success") {
-      localStorage.setItem('rememberMeToken', 'Token From res!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    var incorrectEmail = document.getElementById("incorrectEmail");
+    var incorrectPassword = document.getElementById("incorrectPassword");
+    incorrectEmail.style.display = "none";
+    incorrectPassword.style.display = "none";
+    if (res["status"] == "Success") {
+      localStorage.setItem('rememberMeToken', res.jwt);
       console.log("To Dashboard Logic!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    } else {
+      if (res["status"] == "Incorrect email.") {
+        incorrectEmail.style.display = "block";
+      } else {
+        incorrectPassword.style.display = "block";
+      }
     }
   }
 </script>

@@ -8,6 +8,7 @@ import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
 import Login from './components/Login.vue'
+import Register from './components/Register.vue'
 
 Vue.use(VueRouter)
 Vue.use(Antd)
@@ -24,7 +25,8 @@ Vue.config.productionTip = false
 // })
 const routes = {
   '/': App,
-  '/app/login': Login
+  '/app/login': Login,
+  '/app/register' : Register
 }
 
 new Vue({

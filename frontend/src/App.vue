@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <Nav />
-    <img alt="Vue logo" src="./assets/logo.png" style="width:50px; height:50px;">
+    <Menu /><Nav />
     <Carousel />
+    <img alt="Vue logo" src="./assets/logo.png" style="width:300px; height:300px;">
+    
     <!-- <Login /> -->
   </div>
 </template>
@@ -12,12 +13,14 @@
 // import Login from './components/Login.vue'
 import Nav from './components/Nav.vue'
 import Carousel from './components/Carousel.vue'
+import Menu from './components/Menu.vue'
 
 export default {
   name: 'App',
   components: {
     Nav,
-    Carousel
+    Carousel,
+    Menu
   }
 }
 </script>

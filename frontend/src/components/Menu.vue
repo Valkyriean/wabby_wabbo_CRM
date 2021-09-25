@@ -7,9 +7,10 @@
       mode="inline"
       @click="handleClick"
     >
-      <a-sub-menu key="sub1">
-        <span slot="title"><a-icon type="home" /><span>Homepage</span></span>
-      </a-sub-menu>
+      <a-menu-item key="0">
+        <a-icon type="home" />
+        <span>Homepage</span>
+      </a-menu-item>
       <a-sub-menu key="sub2" @titleClick="titleClick">
         <span slot="title"><a-icon type="crown" /><span>Profile</span></span>
           <a-menu-item key="1">

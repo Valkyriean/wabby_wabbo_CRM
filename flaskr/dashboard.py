@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flaskr.dbmodels import decode_auth_token,Form, Response
+from flaskr.dbmodels import decode_auth_token, Form, Response
 
 
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')

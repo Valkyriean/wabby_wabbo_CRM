@@ -4,6 +4,7 @@ from flask_mongoengine import MongoEngine
 from flask_cors import CORS
 from secret import SECRET_KEY
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -33,11 +34,9 @@ def create_app(test_config=None):
     db = MongoEngine()
     db.init_app(app)
 
-
     @app.route('/', methods=["GET"])
     def get_index():
         return send_file('./static/dist/index.html')
-
 
     @app.route('/js/<filename>', methods=["GET"])
     def get_js(filename):
@@ -54,10 +53,10 @@ def create_app(test_config=None):
     @app.route('/favicon.ico', methods=["GET"])
     def get_ico():
         return send_file('./static/dist/favicon.ico')
+
     @app.route('/app/<foo>', methods=["GET"])
     def login(foo):
         return send_file('./static/dist/index.html')
-    
 
     from . import auth
     app.register_blueprint(auth.bp)

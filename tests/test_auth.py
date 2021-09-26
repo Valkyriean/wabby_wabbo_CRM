@@ -2,7 +2,7 @@ import pytest
 from flask import g, session
 from flask import session
 from flask import request, url_for
-from flaskr.db_models.auth_model import Company
+from flaskr.dbmodels import Company
 from mongoengine import *
 
 @pytest.mark.parametrize(('email', 'password'), (
@@ -14,13 +14,13 @@ def test_register(client, db, app, email, password):
         existing_user = Company.objects(email=email).first()
         assert existing_user is None
     # test that viewing the page renders without template errors
-    assert client.get("/auth/register").status_code == 200
+    assert client.get("/app/register").status_code == 200
 
     # test that successful registration redirects to the dashboard
-    response = client.post("/auth/register", data={"email": email, "password": password}, follow_redirects=True)
+    response = client.post("/app/register", data={"email": email, "password": password}, follow_redirects=True)
     assert response.status == '200 OK'
 
-    assert response.request.path == "/auth/dashboard"
+    # assert response.request.path == "/app/dashboard"
     # assert "http://localhost/auth/dashboard" == response.headers["location"]
 
     # test that the user was inserted into the database
@@ -35,7 +35,7 @@ def test_register(client, db, app, email, password):
 ))
 def test_register_validate_input(client, email, password, message):
     response = client.post(
-        '/auth/register',
+        '/app/register',
         data={'email': email, 'password': password}
     )
     assert message in response.data
@@ -43,14 +43,14 @@ def test_register_validate_input(client, email, password, message):
 
 def test_login(client, auth):
     # test that viewing the page renders without template errors
-    assert client.get("/auth/login").status_code == 200
+    assert client.get("/app/login").status_code == 200
 
     # test that successful login redirects to the index page
     # objs = Company.objects
     # print(objs.to_json())
 
     response = auth.login()
-    assert response.request.path == "/auth/dashboard"
+    assert response.request.path == "/app/dashboard"
     #assert response.headers["Location"] == "http://localhost/"
 
     # login request set the user_id in the session

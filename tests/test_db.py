@@ -1,4 +1,4 @@
-from flaskr.db_models.auth_model import Company
+from flaskr.dbmodels import Company
 
 # test whether a seperate database is set
 def test_testing_db(client, db):

@@ -3,12 +3,11 @@ import tempfile
 
 import pytest
 from flaskr import create_app
-from flaskr.setup import login_manager, db
 import mongoengine
 from flask_mongoengine import MongoEngine
 from mongoengine import connect
 from mongoengine.connection import disconnect
-from flaskr.db_models.auth_model import Company
+from flaskr.dbmodels import Company
 from werkzeug.security import check_password_hash, generate_password_hash
 
 @pytest.fixture

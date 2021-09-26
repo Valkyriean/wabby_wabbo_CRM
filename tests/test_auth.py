@@ -20,7 +20,7 @@ def test_register(client, db, app, email, password):
     response = client.post("/app/register", data={"email": email, "password": password}, follow_redirects=True)
     assert response.status == '200 OK'
 
-    # assert response.request.path == "/app/dashboard"
+    assert response.request.path == "/app/dashboard"
     # assert "http://localhost/auth/dashboard" == response.headers["location"]
 
     # test that the user was inserted into the database

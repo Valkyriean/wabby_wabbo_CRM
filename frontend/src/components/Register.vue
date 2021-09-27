@@ -201,6 +201,7 @@ export default {
       this.checkPassword();
     },
     checkPassword() {
+      const { isFieldTouched } = this.form;
       const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
       var pswIns = document.getElementById("passwordInstruction");
       var pswConIns = document.getElementById("passwordConInstruction");
@@ -218,7 +219,7 @@ export default {
         pswConIns.style.display = "none";
         flag = true;
       } else {
-        pswConIns.style.display = "block";
+        if (isFieldTouched("confirmpassword")) pswConIns.style.display = "block";
         flag = false;
       }
       return flag;

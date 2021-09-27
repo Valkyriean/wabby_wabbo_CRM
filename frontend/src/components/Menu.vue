@@ -15,7 +15,7 @@
         <span slot="title"><a-icon type="crown" /><span>Profile</span></span>
         <a-menu-item key="1"> General </a-menu-item>
         <a-menu-item key="2"> Security </a-menu-item>
-        <a-menu-item key="3"> Log out </a-menu-item>
+        <a-menu-item key="3" @click="logOut()"> Log out </a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub3" @titleClick="titleClick">
         <span slot="title"><a-icon type="cluster" /><span>Database</span></span>
@@ -46,6 +46,10 @@ export default {
     titleClick(e) {
       console.log("titleClick", e);
     },
+    logOut() {
+      if ("rememberMeToken" in localStorage) localStorage.removeItem("rememberMeToken");
+      window.location.href = "/";
+    }
   },
 };
 </script>

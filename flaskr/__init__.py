@@ -2,7 +2,7 @@ import os
 from flask import Flask, send_file
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
-from secret import SECRET_KEY
+from secret import *
 
 
 def create_app(test_config=None):
@@ -12,11 +12,8 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY=SECRET_KEY,
     )
-    app.config['MONGODB_SETTINGS'] = {
-        "db": "crm",
-        'host': 'localhost',
-        'port': 27017
-    }
+    app.config['MONGODB_HOST'] = 'mongodb+srv://'+DB_USERNAME+':'+DB_PASSWORD+'@cluster0.gixca.mongodb.net/crm?retryWrites=true&w=majority&ssl_cert_reqs=CERT_NONE'
+    
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

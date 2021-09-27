@@ -18,10 +18,11 @@ def app():
     mongoengine.connection.disconnect_all()
 
 
-@pytest.fixture()
+@pytest.fixture(autouse=False)
 def db(app):
-    # disconnect master mongodb 
-    disconnect()
+    # disconnect master mongodb
+    with app.app_context():
+        disconnect()
     # reset testing mongodb
     app.config['MONGODB_SETTINGS'] = {
         "db": "crm_test_db",
@@ -29,12 +30,13 @@ def db(app):
         'port': 27017
     }
     test_db = MongoEngine(app)
+
     # insert a test data into db
     comp = Company()
     comp.email = "test@163.com"
     comp.password = generate_password_hash("cccc3333")
     comp.save()
-    
+
     yield test_db
 
     # Clear database after tests, for graceful exit.
@@ -59,7 +61,7 @@ class AuthActions(object):
         self._client = client
 
     def login(self, email='test@163.com', password='cccc3333'):
-        return self._client.post('/auth/login', data={'email': email, 'password': password}, follow_redirects=True)
+        return self._client.post('/auth/login', json={'email': email, 'password': password}, follow_redirects=True)
 
     def logout(self):
         return self._client.get('/auth/logout')

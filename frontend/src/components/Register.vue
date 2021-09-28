@@ -149,9 +149,7 @@ export default {
     incEmail.style.display = "none";
     pswIns.style.display = "none";
     pswConIns.style.display = "none";
-    if ("rememberMeToken" in localStorage) {
-      window.location.href = "/app/dashboard";
-    }
+    if ("rememberMeToken" in localStorage) localStorage.removeItem("rememberMeToken");
   },
   methods: {
     // Only show error after a field is touched.

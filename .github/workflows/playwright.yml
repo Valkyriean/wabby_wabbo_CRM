@@ -12,18 +12,9 @@ jobs:
       matrix:
         node-version: [12.x, 14.x]
         mongodb-version: ['4.0', '4.2', '4.4']
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest]
         playwright: [playwright-latest]
         headless: [true, false]
-        exclude:
-          - os: ubuntu-20.04
-            playwright: 1.0.0
-          - os: ubuntu-20.04
-            playwright: 1.1.0
-          - os: ubuntu-20.04
-            playwright: 1.2.0
-          - os: ubuntu-20.04
-            playwright: latest
 
     runs-on: ${{ matrix.os }}
     steps:

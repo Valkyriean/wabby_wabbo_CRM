@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.dbmodels import *
-
+from email_validator import validate_email, EmailNotValidError
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -16,6 +16,11 @@ def register():
         error = 'Email is required.'
     elif not password:
         error = 'Password is required.'
+    try:
+        valid = validate_email(email)
+        email = valid.email
+    except EmailNotValidError as e:
+        error = str(e)
     if error is None:
         existing_user = Company.objects(email=email).first()
         if existing_user is None:
@@ -42,6 +47,11 @@ def login():
     email = json_data['email']
     password = json_data['password']
     error = None
+    try:
+        valid = validate_email(email)
+        email = valid.email
+    except EmailNotValidError as e:
+        error = str(e)
     comp = Company.objects(email=email).first()
     if comp is None:
         error = 'Incorrect email.'

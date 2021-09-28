@@ -33,7 +33,7 @@ def db(app):
 
     # insert a test data into db
     comp = Company()
-    comp.email = "test@163.com"
+    comp.email = "test@gmail.com"
     comp.password = generate_password_hash("cccc3333")
     comp.save()
 
@@ -60,7 +60,7 @@ class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self, email='test@163.com', password='cccc3333'):
+    def login(self, email='test@gmail.com', password='cccc3333'):
         return self._client.post('/auth/login', json={'email': email, 'password': password}, follow_redirects=True)
 
     def logout(self):

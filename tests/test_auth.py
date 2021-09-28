@@ -6,7 +6,7 @@ from flaskr.dbmodels import Company
 from mongoengine import *
 
 @pytest.mark.parametrize(('email', 'password'), (
-    ('test@1.com', 'aaaa3333'),
+    ('test@qq.com', 'aaaa3333'),
 ))
 def test_register(client, db, app, email, password):
     
@@ -29,9 +29,9 @@ def test_register(client, db, app, email, password):
         assert existing_user is not None
 
 @pytest.mark.parametrize(('email', 'password', 'message'), (
-    ('', '', b'Email is required.'),
-    ('a', '', b'Password is required.'),
-    ('test@163.com', 'cccc3333', b'Email already registered.'),
+    ('', 'cccc3333', b'The email address is not valid. It must have exactly one @-sign.'),
+    ('test2@gmail.com', '', b'Password is required.'),
+    ('test@gmail.com', 'cccc3333', b'Email already registered.'),
 ))
 def test_register_validate_input(client, db, app, email, password, message):
     with app.app_context():
@@ -64,7 +64,7 @@ def test_login(client, db, auth):
 
 @pytest.mark.parametrize(
     ("email", "password", "message"),
-    (("a", "test", b"Incorrect email."), ("test@163.com", "a", b"Incorrect password.")),
+    (("a", "test", b"Incorrect email."), ("test@gmail.com", "a", b"Incorrect password.")),
 )
 def test_login_validate_input(auth, db, app,  email, password, message):
     response = auth.login(email, password)

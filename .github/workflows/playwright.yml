@@ -41,7 +41,7 @@ jobs:
         pip install -r requirements.txt
         pip install -e .
         npm install && cd frontend && npm install
-        cd frontend && npm i -D @playwright/test && npx playwright install
+        npm i -D @playwright/test && npx playwright install
     - name: Setup node
       uses: actions/setup-node@v1
       with:

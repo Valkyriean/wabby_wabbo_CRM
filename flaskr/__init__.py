@@ -3,7 +3,9 @@ from flask import Flask, send_file
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
 from secret import *
+from flask_wtf.csrf import CSRFProtect
 
+csrf = CSRFProtect()
 
 def create_app(test_config=None):
     # create and configure the app
@@ -30,6 +32,7 @@ def create_app(test_config=None):
 
     db = MongoEngine()
     db.init_app(app)
+    csrf.init_app(app)
 
     @app.route('/', methods=["GET"])
     def get_index():

@@ -149,9 +149,7 @@ export default {
     incEmail.style.display = "none";
     pswIns.style.display = "none";
     pswConIns.style.display = "none";
-    if ("rememberMeToken" in localStorage) {
-      window.location.href = "/app/dashboard";
-    }
+    if ("rememberMeToken" in localStorage) localStorage.removeItem("rememberMeToken");
   },
   methods: {
     // Only show error after a field is touched.
@@ -201,6 +199,7 @@ export default {
       this.checkPassword();
     },
     checkPassword() {
+      const { isFieldTouched } = this.form;
       const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
       var pswIns = document.getElementById("passwordInstruction");
       var pswConIns = document.getElementById("passwordConInstruction");
@@ -218,7 +217,7 @@ export default {
         pswConIns.style.display = "none";
         flag = true;
       } else {
-        pswConIns.style.display = "block";
+        if (isFieldTouched("confirmpassword")) pswConIns.style.display = "block";
         flag = false;
       }
       return flag;

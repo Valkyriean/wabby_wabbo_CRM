@@ -49,20 +49,3 @@ jobs:
           ./run.bat 
           cd frontend && npx playwright test
 
-      # Headful is different in every OS
-    - name: Run Playwright (headful linux)
-      if: ${{ matrix.headless == false && startsWith(matrix.os, 'ubuntu') }}
-      run: |
-          ./run.bat
-          cd frontend && HEADFUL=true xvfb-run --auto-servernum -- npx playwright test
-    - name: Run Playwright (headful windows)
-      if: ${{ matrix.headless == false && startsWith(matrix.os, 'windows') }}
-      run: |
-          ./run.bat
-          cd frontend && HEADFUL=true npx playwright test
-      shell: bash
-    - name: Run Playwright (headful mac)
-      if: ${{ matrix.headless == false && startsWith(matrix.os, 'mac') }}
-      run: |
-          ./run.bat
-          cd frontend && HEADFUL=true npx playwright test

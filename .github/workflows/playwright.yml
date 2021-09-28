@@ -41,8 +41,11 @@ jobs:
         pip install -r requirements.txt
         pip install -e .
         cd frontend && npm i -D @playwright/test && npx playwright install
-    - uses: actions/setup-node@v1
-    - uses: ./
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    
     - name: Run Playwright (headless)
       if: ${{ matrix.headless == true }}
       run: |

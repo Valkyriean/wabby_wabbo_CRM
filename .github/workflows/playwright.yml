@@ -13,7 +13,7 @@ jobs:
         node-version: [12.x, 14.x]
         mongodb-version: ['4.0', '4.2', '4.4']
         os: [ubuntu-latest, macos-latest, windows-latest]
-        playwright: [1.0.0, 1.1.0, 1.2.0, 1.12.0, next]
+        playwright: [playwright-latest]
         headless: [true, false]
         exclude:
           - os: ubuntu-20.04

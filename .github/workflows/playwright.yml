@@ -1,19 +1,17 @@
-name: "tests"
+name: "frontend playwright testing"
 on:
-  pull_request:
   push:
-    branches:
-      - main
-  workflow_dispatch:
-  schedule:
-    - cron: '40 0 * * *'
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test-linux:
     name: Playwright@${{ matrix.playwright}} ${{ matrix.os }} headless=${{ matrix.headless }}
     strategy:
-      fail-fast: false
       matrix:
+        node-version: [12.x, 14.x]
+        mongodb-version: ['4.0', '4.2', '4.4']
         os: [ubuntu-latest, macos-latest, windows-latest]
         playwright: [1.0.0, 1.1.0, 1.2.0, 1.12.0, next]
         headless: [true, false]
@@ -29,24 +27,51 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - name: Git checkout
+      uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    
+    - name: Create and start virtual environment
+      run: |
+        python3 -m venv venv
+        source venv/bin/activate
+    
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.6.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -e .
+        cd frontend && npm i -D @playwright/test && npx playwright install
     - uses: actions/setup-node@v1
     - uses: ./
-    - name: Install dependencies
-      run: cd frontend && npm install playwright@${{ matrix.playwright }}
-      # Headless running is the same across OSes
     - name: Run Playwright (headless)
       if: ${{ matrix.headless == true }}
-      run: cd frontend && npx playwright test
+      run: |
+          ./run.bat 
+          cd frontend && npx playwright test
 
       # Headful is different in every OS
     - name: Run Playwright (headful linux)
       if: ${{ matrix.headless == false && startsWith(matrix.os, 'ubuntu') }}
-      run: cd frontend && HEADFUL=true xvfb-run --auto-servernum -- npx playwright test
+      run: |
+          ./run.bat
+          cd frontend && HEADFUL=true xvfb-run --auto-servernum -- npx playwright test
     - name: Run Playwright (headful windows)
       if: ${{ matrix.headless == false && startsWith(matrix.os, 'windows') }}
-      run: cd frontend && HEADFUL=true npx playwright test
+      run: |
+          ./run.bat
+          cd frontend && HEADFUL=true npx playwright test
       shell: bash
     - name: Run Playwright (headful mac)
       if: ${{ matrix.headless == false && startsWith(matrix.os, 'mac') }}
-      run: cd frontend && HEADFUL=true npx playwright test
+      run: |
+          ./run.bat
+          cd frontend && HEADFUL=true npx playwright test

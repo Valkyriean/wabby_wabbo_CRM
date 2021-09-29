@@ -3,7 +3,7 @@
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 const config = {
     use: {
-        baseURL: 'http://10.0.0.36:5000/',
+        baseURL: 'http://127.0.0.1:5000/',
         browserName: 'chromium',
         headless: true,
     },

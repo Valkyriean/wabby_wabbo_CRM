@@ -1,108 +1,103 @@
 <template>
   <body>
     <Nav />
+
     <main class="register-form">
       <h2>Sign up for</h2>
       <h2>Wabby Wabbo CRM</h2>
-      <a-form layout="inline" :form="form" @submit="handleSubmit">
-        <a-row type="flex" justify="center" align="middle" :span="12">
-          <a-form-item
-            class="input"
-            :validate-status="userNameError() ? 'error' : ''"
-            :help="userNameError() || ''"
+      <a-alert
+        id="emailNotAvailable"
+        type="error"
+        message="The email is not available."
+      />
+      <a-form layout="formLayout" :form="form" @submit="handleSubmit">
+        <a-form-item
+          class="input"
+          :validate-status="emailError() ? 'error' : ''"
+          :help="emailError() || ''"
+        >
+          <a-input
+            v-decorator="[
+              'email',
+              {
+                rules: [
+                  { type: 'email', message: 'The input is not valid E-mail!' },
+                  { required: true, message: 'Please input your Email!' },
+                ],
+              },
+            ]"
+            placeholder="Email"
           >
-            <a-input
-              v-decorator="[
-                'userName',
-                {
-                  rules: [
-                    { required: true, message: 'Please input your username!' },
-                  ],
-                },
-              ]"
-              placeholder="Username"
-            >
-              <a-icon
-                slot="prefix"
-                type="user"
-                style="color: rgba(0, 0, 0, 0.25)"
-              />
-            </a-input>
-            <a-alert
-              id="incorrectEmail"
-              type="error"
-              message="Email unavilable."
+            <a-icon
+              slot="prefix"
+              type="user"
+              style="color: rgba(0, 0, 0, 0.25)"
             />
-          </a-form-item>
-        </a-row>
+          </a-input>
+        </a-form-item>
 
-        <a-row type="flex" justify="center" align="middle" :span="12">
-          <a-form-item
-            :validate-status="passwordError() ? 'error' : ''"
-            :help="passwordError() || ''"
+        <a-form-item
+          :validate-status="passwordError() ? 'error' : ''"
+          :help="passwordError() || ''"
+        >
+          <a-input
+            id="password"
+            v-decorator="[
+              'password',
+              {
+                rules: [
+                  { required: true, message: 'Please input your Password!\n' },
+                  {
+                    validator: checkPasswordStrength,
+                    message: 'Password too short.',
+                  },
+                  {
+                    validator: checkPasswordLegality,
+                    message: 'Password can only be letters and numbers.',
+                  },
+                  { validator: checkConfirmWhenChanged },
+                ],
+              },
+            ]"
+            type="password"
+            placeholder="Password"
+            @change="recordPassword"
           >
-            <a-input
-              id="password"
-              v-decorator="[
-                'password',
-                {
-                  rules: [
-                    { required: true, message: 'Please input your Password!' },
-                  ],
-                },
-              ]"
-              type="password"
-              placeholder="Password"
-              @change="recordPassword"
-            >
-              <a-icon
-                slot="prefix"
-                type="lock"
-                style="color: rgba(0, 0, 0, 0.25)"
-              />
-            </a-input>
-          </a-form-item>
-          <a-alert
-            id="passwordInstruction"
-            type="error"
-            message="Password should countain at least a letter, a number, and over 8 chars in length"
-          />
-        </a-row>
-        <a-row type="flex" justify="center" align="middle" :span="12">
-          <a-form-item
-            :validate-status="confirmpasswordError() ? 'error' : ''"
-            :help="confirmpasswordError() || ''"
+            <a-icon
+              slot="prefix"
+              type="lock"
+              style="color: rgba(0, 0, 0, 0.25)"
+            />
+          </a-input>
+        </a-form-item>
+
+        <a-form-item
+          :validate-status="confirmpasswordError() ? 'error' : ''"
+          :help="confirmpasswordError() || ''"
+        >
+          <a-input
+            id="confirmpassword"
+            v-decorator="[
+              'confirmpassword',
+              {
+                rules: [
+                  { required: true, message: 'Please confirm your Password!' },
+                  { validator: checkConfirmPassword },
+                ],
+              },
+            ]"
+            type="password"
+            placeholder="Confirm password"
+            @change="recordConfirmPassword"
           >
-            <a-input
-              id="confirmpassword"
-              v-decorator="[
-                'confirmpassword',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please confirm your Password!',
-                    },
-                  ],
-                },
-              ]"
-              type="password"
-              placeholder="Confirm password"
-              @change="recordConfirmPassword"
-            >
-              <a-icon
-                slot="prefix"
-                type="lock"
-                style="color: rgba(0, 0, 0, 0.25)"
-              />
-            </a-input>
-          </a-form-item>
-          <a-alert
-            id="passwordConInstruction"
-            type="error"
-            message="Two password are different."
-          />
-        </a-row>
+            <a-icon
+              slot="prefix"
+              type="lock"
+              style="color: rgba(0, 0, 0, 0.25)"
+            />
+          </a-input>
+        </a-form-item>
+
         <a-row type="flex" justify="center" align="middle" :span="12">
           <a-form-item>
             <a-button
@@ -139,23 +134,39 @@ export default {
     };
   },
   mounted() {
+    var emailNotAvailable = document.getElementById("emailNotAvailable");
+    emailNotAvailable.style.display = "none";
     this.$nextTick(() => {
       // To disabled submit button at the beginning.
       this.form.validateFields();
     });
-    var incEmail = document.getElementById("incorrectEmail");
-    var pswIns = document.getElementById("passwordInstruction");
-    var pswConIns = document.getElementById("passwordConInstruction");
-    incEmail.style.display = "none";
-    pswIns.style.display = "none";
-    pswConIns.style.display = "none";
-    if ("rememberMeToken" in localStorage) localStorage.removeItem("rememberMeToken");
+    if ("rememberMeToken" in localStorage)
+      localStorage.removeItem("rememberMeToken");
+  },
+  computed: {
+    formItemLayout() {
+      const { formLayout } = this;
+      return formLayout === "horizontal"
+        ? {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 14 },
+          }
+        : {};
+    },
+    buttonItemLayout() {
+      const { formLayout } = this;
+      return formLayout === "horizontal"
+        ? {
+            wrapperCol: { span: 14, offset: 4 },
+          }
+        : {};
+    },
   },
   methods: {
     // Only show error after a field is touched.
-    userNameError() {
+    emailError() {
       const { getFieldError, isFieldTouched } = this.form;
-      return isFieldTouched("userName") && getFieldError("userName");
+      return isFieldTouched("email") && getFieldError("email");
     },
     // Only show error after a field is touched.
     passwordError() {
@@ -181,7 +192,7 @@ export default {
         values.rememberMe = false;
         this.axios
           .post("/auth/register", {
-            email: values.userName,
+            email: values.email,
             password: values.password,
             rememberMe: values.rememberMe,
           })
@@ -192,55 +203,49 @@ export default {
     },
     recordPassword(e) {
       this.pwd = e.target.value;
-      this.checkPassword();
     },
     recordConfirmPassword(e) {
       this.cpwd = e.target.value;
-      this.checkPassword();
     },
-    checkPassword() {
-      const { isFieldTouched } = this.form;
-      const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
-      var pswIns = document.getElementById("passwordInstruction");
-      var pswConIns = document.getElementById("passwordConInstruction");
-      var flag = false;
-      if (strongPassword.test(this.pwd)) {
-        // password strong enough
-        pswIns.style.display = "none";
-        flag = true;
-      } else {
-        pswIns.style.display = "block";
-        flag = false;
+    checkPasswordStrength() {
+      const strongPassword = new RegExp("(?=.{6,})");
+      return this.pwd != "" && strongPassword.test(this.pwd);
+    },
+    checkPasswordLegality() {
+      const strongPassword = new RegExp("(?=.{6,})");
+      const legalPassword = new RegExp("^[a-zA-Z0-9]+$");
+      return !strongPassword.test(this.pwd) || legalPassword.test(this.pwd);
+    },
+    checkConfirmWhenChanged(rule, value, callback) {
+      const form = this.form;
+      if (value) {
+        form.validateFields(["confirmpassword"], { force: true });
       }
-      if (this.cpwd == this.pwd) {
-        // password same
-        pswConIns.style.display = "none";
-        flag = true;
+      callback();
+    },
+    checkConfirmPassword(rule, value, callback) {
+      const form = this.form;
+      if (value && value !== form.getFieldValue("password")) {
+        callback("Two passwords that you enter is inconsistent!");
       } else {
-        if (isFieldTouched("confirmpassword")) pswConIns.style.display = "block";
-        flag = false;
+        callback();
       }
-      return flag;
     },
   },
 };
 
 function checkRes(res) {
-  var incorrectEmail = document.getElementById("incorrectEmail");
-  var incorrectPassword = document.getElementById("passwordInstruction");
-  var incorrectConfirmPassword = document.getElementById("passwordConInstruction");
-  incorrectEmail.style.display = "none";
-  incorrectPassword.style.display = "none";
-  incorrectConfirmPassword.style.display = "none";
+  var emailNotAvailable = document.getElementById("emailNotAvailable");
+  emailNotAvailable.style.display = "none";
   console.log(res["status"]);
   if (res["status"] == "Success") {
     localStorage.setItem("rememberMeToken", res.jwt);
     window.location.href = "/app/dashboard";
   } else {
     if (res["status"] == "Email already registered.") {
-      incorrectEmail.style.display = "block";
+      emailNotAvailable.style.display = "block";
     } else {
-      incorrectPassword.style.display = "block";
+      console.log("something went wrong");
     }
   }
 }

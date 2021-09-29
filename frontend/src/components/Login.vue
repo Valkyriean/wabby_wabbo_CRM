@@ -4,76 +4,79 @@
     <main class="login-form">
       <h2>Sign in to</h2>
       <h2>Wabby Wabbo CRM</h2>
-      <a-form layout="inline" :form="form" @submit="handleSubmit">
-        <a-row type="flex" justify="center" align="middle" :span="12">
-          <a-form-item
-            class="input"
-            :validate-status="userNameError() ? 'error' : ''"
-            :help="userNameError() || ''"
+      <a-alert
+        id="emailWrong"
+        type="error"
+        message="The email does not exist."
+      />
+      <a-alert
+        id="passwordWrong"
+        type="error"
+        message="The password is wrong."
+      />
+      <a-form layout="formLayout" :form="form" @submit="handleSubmit">
+        <a-form-item
+          class="input"
+          :validate-status="emailError() ? 'error' : ''"
+          :help="emailError() || ''"
+        >
+          <a-input
+            v-decorator="[
+              'email',
+              {
+                rules: [
+                  { required: true, message: 'Please input your email!' },
+                ],
+              },
+            ]"
+            placeholder="Email"
           >
-            <a-input
-              v-decorator="[
-                'userName',
-                {
-                  rules: [
-                    { required: true, message: 'Please input your username!' },
-                  ],
-                },
-              ]"
-              placeholder="Username"
-            >
-              <a-icon
-                slot="prefix"
-                type="user"
-                style="color: rgba(0, 0, 0, 0.25)"
-              />
-            </a-input>
-            <a-alert
-              id="incorrectEmail"
-              type="error"
-              message="Incorrect email."
+            <a-icon
+              slot="prefix"
+              type="user"
+              style="color: rgba(0, 0, 0, 0.25)"
             />
-          </a-form-item>
-        </a-row>
-        <a-row type="flex" justify="center" align="middle" :span="12">
-          <a-form-item
-            :validate-status="passwordError() ? 'error' : ''"
-            :help="passwordError() || ''"
+          </a-input>
+        </a-form-item>
+
+        <a-form-item
+          :validate-status="passwordError() ? 'error' : ''"
+          :help="passwordError() || ''"
+        >
+          <a-input
+            v-decorator="[
+              'password',
+              {
+                rules: [
+                  { required: true, message: 'Please input your Password!' },
+                  {
+                    validator: checkPasswordLegality,
+                    message: 'Password invalid.',
+                  },
+                ],
+              },
+            ]"
+            type="password"
+            placeholder="Password"
+            @change="recordPassword"
           >
-            <a-input
-              v-decorator="[
-                'password',
-                {
-                  rules: [
-                    { required: true, message: 'Please input your Password!' },
-                  ],
-                },
-              ]"
-              type="password"
-              placeholder="Password"
-            >
-              <a-icon
-                slot="prefix"
-                type="lock"
-                style="color: rgba(0, 0, 0, 0.25)"
-              />
-            </a-input>
-            <a-alert
-              id="incorrectPassword"
-              type="error"
-              message="Incorrect password."
+            <a-icon
+              slot="prefix"
+              type="lock"
+              style="color: rgba(0, 0, 0, 0.25)"
             />
-          </a-form-item>
-        </a-row>
+          </a-input>
+        </a-form-item>
+
         <a-row type="flex" justify="center" align="middle" :span="12">
-          <a-form-item label="Remember me">
-            <a-switch
-              v-decorator="['rememberMe', { valuePropName: 'checked' }]"
-              default-checked
-              @change="getRememberMe"
-            />
-          </a-form-item>
+          <h3 style="padding-right:20px;">Remember me:</h3>
+          <a-switch
+            v-decorator="['rememberMe', { valuePropName: 'checked' }]"
+            default-checked
+            @change="getRememberMe"
+          />
         </a-row>
+
         <a-row type="flex" justify="center" align="middle" :span="12">
           <a-form-item>
             <a-button
@@ -104,26 +107,46 @@ export default {
     return {
       hasErrors,
       form: this.$form.createForm(this, { name: "horizontal_login" }),
+      pwd: "",
     };
   },
   mounted() {
+    var emailWrong = document.getElementById("emailWrong");
+    emailWrong.style.display = "none";
+    var passwordWrong = document.getElementById("passwordWrong");
+    passwordWrong.style.display = "none";
     this.$nextTick(() => {
       // To disabled submit button at the beginning.
       this.form.validateFields();
     });
-    var incorrectEmail = document.getElementById("incorrectEmail");
-    var incorrectPassword = document.getElementById("incorrectPassword");
-    incorrectEmail.style.display = "none";
-    incorrectPassword.style.display = "none";
     if ("rememberMeToken" in localStorage) {
       window.location.href = "/app/dashboard";
     }
   },
+  computed: {
+    formItemLayout() {
+      const { formLayout } = this;
+      return formLayout === "horizontal"
+        ? {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 14 },
+          }
+        : {};
+    },
+    buttonItemLayout() {
+      const { formLayout } = this;
+      return formLayout === "horizontal"
+        ? {
+            wrapperCol: { span: 14, offset: 4 },
+          }
+        : {};
+    },
+  },
   methods: {
     // Only show error after a field is touched.
-    userNameError() {
+    emailError() {
       const { getFieldError, isFieldTouched } = this.form;
-      return isFieldTouched("userName") && getFieldError("userName");
+      return isFieldTouched("email") && getFieldError("email");
     },
     // Only show error after a field is touched.
     passwordError() {
@@ -132,6 +155,9 @@ export default {
     },
     getRememberMe(checked) {
       console.log(`Remember me switch to ${checked}`);
+    },
+    recordPassword(e) {
+      this.pwd = e.target.value;
     },
     handleSubmit(e) {
       e.preventDefault();
@@ -143,7 +169,7 @@ export default {
         values.rememberMe = false;
         this.axios
           .post("/auth/login", {
-            email: values.userName,
+            email: values.email,
             password: values.password,
             rememberMe: values.rememberMe,
           })
@@ -152,21 +178,25 @@ export default {
           });
       });
     },
+    checkPasswordLegality() {
+      const legalPassword = new RegExp("^[a-zA-Z0-9]+$");
+      return legalPassword.test(this.pwd);
+    },
   },
 };
 function checkRes(res) {
-  var incorrectEmail = document.getElementById("incorrectEmail");
-  var incorrectPassword = document.getElementById("incorrectPassword");
-  incorrectEmail.style.display = "none";
-  incorrectPassword.style.display = "none";
+  var emailWrong = document.getElementById("emailWrong");
+  emailWrong.style.display = "none";
+  var passwordWrong = document.getElementById("passwordWrong");
+  passwordWrong.style.display = "none";
   if (res["status"] == "Success") {
     localStorage.setItem("rememberMeToken", res.jwt);
     window.location.href = "/app/dashboard";
   } else {
     if (res["status"] == "Incorrect email.") {
-      incorrectEmail.style.display = "block";
+      emailWrong.style.display = "block";
     } else {
-      incorrectPassword.style.display = "block";
+      passwordWrong.style.display = "block";
     }
   }
 }

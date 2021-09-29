@@ -9,7 +9,7 @@
     >
       <a-menu-item key="0">
         <a-icon type="home" />
-        <span>Homepage</span>
+        <span>Dashboard</span>
       </a-menu-item>
       <a-sub-menu key="sub2" @titleClick="titleClick">
         <span slot="title"><a-icon type="crown" /><span>Profile</span></span>

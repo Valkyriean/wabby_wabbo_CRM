@@ -75,6 +75,9 @@ def show_response():
     form = Form.objects(pk=form_id).first()
     if form is None:
         return jsonify({"status": "Form not exist"})
+    header = []
+    for l in form.field_list:
+        header.append(str(l[0]))
     responses = Response.objects(form_id=str(form_id))
     return_list = []
     for r in responses:
@@ -84,7 +87,7 @@ def show_response():
         if not form.anonymous:
             temp["customer_id"] = r.customer_id
         return_list.append(temp)
-    return jsonify({"status": "Success", "name": form.name, "description": form.description, "anonymous": form.anonymous, "field_list": form.field_list, "responses": return_list})
+    return jsonify({"status": "Success", "name": form.name, "description": form.description, "anonymous": form.anonymous, "field_list": header, "responses": return_list})
 
 
 @bp.route('/checkcustomer', methods=['POST'])

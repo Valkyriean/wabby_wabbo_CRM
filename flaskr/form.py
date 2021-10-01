@@ -1,23 +1,23 @@
 from dns.rdataclass import NONE
 from flask import Blueprint, request, jsonify
-from flaskr.dbmodels import decode_auth_token, Form, Response
+from flaskr.dbmodels import decode_auth_token, Form, Response, Customer
 
 bp = Blueprint('form', __name__, url_prefix='/form')
 
 
 @bp.route('/getform', methods=['POST'])
-def getform():
+def get_form():
     json_data = request.json
     form_id = json_data['form_id']
     form = Form.objects(pk=form_id).first()
     if form is None:
         return jsonify({"status": "Form not exist"})
-    fieldlist = form.field_list
-    return jsonify({"status": "Success", "field_list": fieldlist})
+    field_list = form.field_list
+    return jsonify({"status": "Success", "field_list": field_list})
 
 
 @bp.route('/saveresponse', methods=['POST'])
-def saveresponse():
+def save_response():
     json_data = request.json
     form_id = json_data['form_id']
     form = Form.objects(pk=form_id).first()
@@ -26,24 +26,37 @@ def saveresponse():
     form.count += 1
     form.save()
     response = Response()
-    response.formId = form_id
-    response.response_list = json_data['response_list']
+    response.form_id = form_id
+    response_list = json_data['response_list']
+    if not form.anonymous:
+        name = response_list[0]
+        customer = Customer.objects(
+            name=name, company_id=form.company_id).first()
+        if customer is None:
+            customer = Customer()
+            customer.name = name
+            customer.company_id = form.company_id
+            customer.save()
+        response.customer_id = str(customer.pk)
+        response.response_list = response_list
+    else:
+        response.response_list = response_list
     response.save()
     return jsonify({"status": "Success"})
 
 
 @bp.route('/deleteresponse', methods=['POST'])
-def deleteresponse():
+def delete_response():
     json_data = request.json
     token = json_data["jwt"]
-    comp = decode_auth_token(token)
+    company = decode_auth_token(token)
     responseId = json_data['response_id']
-    if isinstance(comp, str):
-        return jsonify({"status": comp})
+    if isinstance(company, str):
+        return jsonify({"status": company})
     response = Response.objects(pk=responseId).first()
     if response is None:
         return jsonify({"status": "Response Not Exist"})
-    form_id = response.formId
+    form_id = response.form_id
     form = Form.objects(pk=form_id).first()
     form.count += -1
     response.delete()
@@ -52,21 +65,46 @@ def deleteresponse():
 
 
 @bp.route('/showresponse', methods=['POST'])
-def showresponse():
+def show_response():
     json_data = request.json
     token = json_data["jwt"]
-    comp = decode_auth_token(token)
-    if isinstance(comp, str):
-        return jsonify({"status": comp})
+    company = decode_auth_token(token)
+    if isinstance(company, str):
+        return jsonify({"status": company})
     form_id = json_data['form_id']
     form = Form.objects(pk=form_id).first()
     if form is None:
         return jsonify({"status": "Form not exist"})
-    responses = Response.objects(formId=str(form_id))
+    responses = Response.objects(form_id=str(form_id))
+    return_list = []
+    for r in responses:
+        temp = {}
+        temp["response_id"] = str(r.pk)
+        temp["response"] = r.response_list
+        if not form.anonymous:
+            temp["customer_id"] = r.customer_id
+        return_list.append(temp)
+    return jsonify({"status": "Success", "name": form.name, "description": form.description, "anonymous": form.anonymous, "field_list": form.field_list, "responses": return_list})
+
+
+@bp.route('/checkcustomer', methods=['POST'])
+def check_customer():
+    json_data = request.json
+    token = json_data["jwt"]
+    company = decode_auth_token(token)
+    if isinstance(company, str):
+        return jsonify({"status": company})
+    customer_id = json_data['customer_id']
+    customer = Customer.objects(pk=customer_id).first()
+    if customer is None:
+        return jsonify({"status": "Customer not exist"})
+    if customer.company_id != str(company.pk):
+        return jsonify({"status": "Customer not accessible"})
+    responses = Response.objects(customer_id=customer_id)
     return_list = []
     for r in responses:
         temp = {}
         temp["response_id"] = str(r.pk)
         temp["response"] = r.response_list
         return_list.append(temp)
-    return jsonify({"status": "Success", "name": form.name, "description": form.description, "field_list": form.field_list, "responses": return_list})
+    return jsonify({"status": "Success", "responses": return_list})

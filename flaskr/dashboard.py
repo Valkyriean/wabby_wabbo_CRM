@@ -9,15 +9,23 @@ bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 def create_form():
     json_data = request.json
     token = json_data["jwt"]
-    comp = decode_auth_token(token)
-    if isinstance(comp, str):
-        return jsonify({"status": comp})
+    company = decode_auth_token(token)
+    if isinstance(company, str):
+        return jsonify({"status": company})
     form = Form()
-    form.companyId = str(comp.pk)
+    form.company_id = str(company.pk)
     form.count = 0
     form.name = json_data["name"]
     form.description = json_data["description"]
-    form.field_list = json_data["field_list"]
+
+    if json_data["anonymous"] == "True":
+        form.anonymous = True
+        form.field_list = json_data["field_list"]
+
+    else:
+        form.anonymous = False
+        field_list = json_data["field_list"]
+        form.field_list = [["Name", "String", "required"]] + field_list
     form.save()
     return jsonify({"status": "Success"})
 
@@ -26,10 +34,10 @@ def create_form():
 def homepage():
     json_data = request.json
     token = json_data["jwt"]
-    comp = decode_auth_token(token)
-    if isinstance(comp, str):
-        return jsonify({"status": comp})
-    forms = Form.objects(companyId=str(comp.pk))
+    company = decode_auth_token(token)
+    if isinstance(company, str):
+        return jsonify({"status": company})
+    forms = Form.objects(company_id=str(company.pk))
     return_list = []
     for f in forms:
         temp = {}
@@ -37,6 +45,7 @@ def homepage():
         temp["count"] = f.count
         temp["name"] = f.name
         temp["description"] = f.description
+        temp["anonymous"] = f.anonymous
         return_list.append(temp)
     return jsonify({"status": "Success", "forms": return_list})
 
@@ -45,33 +54,36 @@ def homepage():
 def delete_form():
     json_data = request.json
     token = json_data["jwt"]
-    comp = decode_auth_token(token)
-    formId = json_data['form_id']
-    if isinstance(comp, str):
-        return jsonify({"status": comp})
-    form = Form.objects(pk=formId).first()
+    company = decode_auth_token(token)
+    form_id = json_data['form_id']
+    if isinstance(company, str):
+        return jsonify({"status": company})
+    form = Form.objects(pk=form_id).first()
     if form is None:
         return jsonify({"status": "Form not exist"})
-    if form.companyId != str(comp.pk):
+    if form.company_id != str(company.pk):
         return jsonify({"status": "Unauthorized"})
+    responses = Response.objects(form_id=form_id)
+    for r in responses:
+        r.delete()
     form.delete()
     return jsonify({"status": "Success"})
 
 
-@bp.route('/updateform', methods=['POST'])
-def update_form():
-    json_data = request.json
-    formId = json_data['form_id']
-    new_field_list = json_data['field_list']
-    token = json_data["jwt"]
-    comp = decode_auth_token(token)
-    if isinstance(comp, str):
-        return jsonify({"status": comp})
-    form = Form.objects(pk=formId).first()
-    if form is None:
-        return jsonify({"status": "Form not exist"})
-    if form.companyId != str(comp.pk):
-        return jsonify({"status": "Unauthorized"})
-    form.field_list = new_field_list
-    form.save()
-    return jsonify({"status": "Success"})
+# @bp.route('/updateform', methods=['POST'])
+# def update_form():
+#     json_data = request.json
+#     formId = json_data['form_id']
+#     new_field_list = json_data['field_list']
+#     token = json_data["jwt"]
+#     company = decode_auth_token(token)
+#     if isinstance(company, str):
+#         return jsonify({"status": company})
+#     form = Form.objects(pk=formId).first()
+#     if form is None:
+#         return jsonify({"status": "Form not exist"})
+#     if form.companyany_id != str(company.pk):
+#         return jsonify({"status": "Unauthorized"})
+#     form.field_list = new_field_list
+#     form.save()
+#     return jsonify({"status": "Success"})

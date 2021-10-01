@@ -1,5 +1,5 @@
 <template>
-  <a-carousel autoplay>
+  <a-carousel>
       <img src="../assets/1.jpg" class="carousel-image"/>
       <img src="../assets/2.jpg" class="carousel-image"/>
       <img src="../assets/3.jpg" class="carousel-image"/>

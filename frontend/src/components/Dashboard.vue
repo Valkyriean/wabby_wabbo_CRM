@@ -9,7 +9,7 @@
 
 <script>
 import Menu from "./Menu.vue";
-import List from "./List.vue";
+import List from "./Form.vue";
 
 export default {
   name: "App",

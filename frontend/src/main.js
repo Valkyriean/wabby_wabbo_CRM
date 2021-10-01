@@ -7,9 +7,10 @@ import VueAxios from 'vue-axios';
 import 'ant-design-vue/dist/antd.css';
 
 import App from './App.vue';
-import Login from './components/Login.vue'
-import Register from './components/Register.vue'
-import Dashboard from './components/Dashboard.vue'
+import Login from './components/Login.vue';
+import Register from './components/Register.vue';
+import Dashboard from './components/Dashboard.vue';
+import Record from './components/Record.vue';
 
 Vue.use(VueRouter)
 Vue.use(Antd)
@@ -27,8 +28,9 @@ Vue.config.productionTip = false
 const routes = {
   '/': App,
   '/app/login': Login,
-  '/app/register' : Register,
-  '/app/dashboard' : Dashboard,
+  '/app/register': Register,
+  '/app/dashboard': Dashboard,
+  '/app/record': Record,
 }
 
 new Vue({

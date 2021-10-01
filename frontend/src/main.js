@@ -28,7 +28,7 @@ const routes = {
   '/': App,
   '/app/login': Login,
   '/app/register' : Register,
-  '/app/dashboard' : Dashboard
+  '/app/dashboard' : Dashboard,
 }
 
 new Vue({

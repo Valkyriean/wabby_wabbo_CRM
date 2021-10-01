@@ -62,4 +62,6 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     from . import dashboard
     app.register_blueprint(dashboard.bp)
+    from . import form
+    app.register_blueprint(form.bp)
     return app

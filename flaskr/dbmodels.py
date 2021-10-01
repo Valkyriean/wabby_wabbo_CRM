@@ -5,7 +5,6 @@ from secret import SECRET_KEY
 
 
 class Company(me.Document):
-    # name = me.StringField(required=True, max_length=100)
     email = me.StringField(required=True, max_length=30)
     password = me.StringField()
 
@@ -39,14 +38,12 @@ def decode_auth_token(auth_token):
 
 class Form(me.DynamicDocument):
     name = me.StringField(required=True)
+    description = me.StringField()
     field_list = me.ListField(required=True)
     count = me.IntField(required=True)
     companyId = me.StringField(required=True)
 
 
 class Response(me.DynamicDocument):
-    company = me.StringField(required=True, max_length=30)
     formId = me.StringField(required=True)
-    name = me.StringField(required=True)
-    age = me.IntField(required=True)
-    gender = me.StringField(required=True)
+    response_list = me.ListField(require=True)

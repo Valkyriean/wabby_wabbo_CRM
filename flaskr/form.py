@@ -107,7 +107,33 @@ def check_customer():
     return_list = []
     for r in responses:
         temp = {}
+        form = Form.objects(pk=r.form_id).first()
+        if form is None:
+            return jsonify({"status": "Form not exist"})
+        header = []
+        for l in form.field_list:
+            header.append(str(l[0]))
+        temp["field_list"] = header
         temp["response_id"] = str(r.pk)
         temp["response"] = r.response_list
+        return_list.append(temp)
+    return jsonify({"status": "Success", "responses": return_list})
+
+
+@bp.route('/getcustomer', methods=['POST'])
+def get_customer():
+    json_data = request.json
+    token = json_data["jwt"]
+    company = decode_auth_token(token)
+    if isinstance(company, str):
+        return jsonify({"status": company})
+    customer = Customer.objects(company_id=str(company.pk))
+    if customer is None:
+        return jsonify({"status": "Customer not exist"})
+    return_list = []
+    for c in customer:
+        temp = {}
+        temp["name"] = c.name
+        temp["customer_id"] = str(c.pk)
         return_list.append(temp)
     return jsonify({"status": "Success", "responses": return_list})

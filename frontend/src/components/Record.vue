@@ -12,68 +12,14 @@
       </a-tag>
     </span>
     <span slot="action" slot-scope="text, record">
-      <a>Invite 一 {{ record.name }}</a>
-      <a-divider type="vertical" />
-      <a>Delete</a>
-      <a-divider type="vertical" />
-      <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
+      <a :id="record.id">View All</a>
     </span>
   </a-table>
 </template>
 <script>
-const columns = [
-  {
-    dataIndex: 'name',
-    key: 'name',
-    slots: { title: 'customTitle' },
-    scopedSlots: { customRender: 'name' },
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    scopedSlots: { customRender: 'tags' },
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    scopedSlots: { customRender: 'action' },
-  },
-];
+const columns = [];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+const data = [];
 export default {
 
   data() {
@@ -91,28 +37,31 @@ export default {
         .post('http://172.20.10.3:5000/form/showresponse', body)
         .then((response) => {
           // console.log(response.data);
-          this.columns = [];
           var columnNames = [];
           response.data.field_list.forEach((item) => {
             this.columns.push({
-              title: item[0],
-              dataIndex: item[0].toLowerCase(),
-              key: item[0].toLowerCase(),
+              title: item,
+              dataIndex: item.toLowerCase(),
+              key: item.toLowerCase(),
             });
-            columnNames.push(item[0].toLowerCase());
+            columnNames.push(item.toLowerCase());
           });
+
+          this.columns.push({
+            title: 'Action',
+            key: 'action',
+            scopedSlots: { customRender: 'action' },
+          },)
+
           this.data = [];
           response.data.responses.forEach((item) => {
             var itemData = {key: item.response_id};
             for (let i = 0; i < columnNames.length; i ++) {
               itemData[columnNames[i]] = item.response[i];
             }
+            itemData["id"] = item.customer_id;
             console.log(itemData);
             this.data.push(itemData);
-          });
-
-          response.data.responses.forEach((item) => {
-            console.log(item.customer_id);
           });
         });
   },

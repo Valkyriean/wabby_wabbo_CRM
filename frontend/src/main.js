@@ -11,6 +11,7 @@ import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 import Dashboard from './components/Dashboard.vue';
 import Record from './components/Record.vue';
+import Spread from './components/Spread.vue';
 
 Vue.use(VueRouter)
 Vue.use(Antd)

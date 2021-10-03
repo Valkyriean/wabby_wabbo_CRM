@@ -11,20 +11,7 @@
   </a-list>
 </template>
 <script>
-const data = [
-  {
-    title: 'Title 1',
-  },
-  {
-    title: 'Title 2',
-  },
-  {
-    title: 'Title 3',
-  },
-  {
-    title: 'Title 4',
-  },
-];
+const data = [];
 export default {
   data() {
     return {
@@ -66,7 +53,6 @@ export default {
       window.location.href = "/app/record";
     }
   }
-  
 };
 </script>
 <style></style>

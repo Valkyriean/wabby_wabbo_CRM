@@ -1,10 +1,14 @@
 <template>
-  <div id="dashBoard">
-    <Menu />
+  <a-layout id="dashBoard">
+    <a-layout-sider>
+      <Menu />
+    </a-layout-sider>
 
     <!-- <Login /> -->
-    <List />
-  </div>
+    <a-layout-content>
+      <List class="list-content"/>
+    </a-layout-content>
+  </a-layout>
 </template>
 
 <script>
@@ -19,3 +23,16 @@ export default {
   },
 };
 </script>
+<style scoped>
+  #dashBoard {
+    height: 100%;
+  }
+  #dashboard .logo {
+    height: 10%;
+    color: lightblue;
+    margin: 16px;
+  }
+  .list-content {
+    margin: 60px;
+  }
+</style>

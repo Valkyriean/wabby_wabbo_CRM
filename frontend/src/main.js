@@ -32,6 +32,7 @@ const routes = {
   '/app/register': Register,
   '/app/dashboard': Dashboard,
   '/app/record': Record,
+  '/app/customer': Spread,
 }
 
 new Vue({

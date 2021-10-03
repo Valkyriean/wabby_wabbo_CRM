@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-menu
-      style="width: 256px"
+
       :default-selected-keys="['1']"
       :open-keys.sync="openKeys"
       mode="inline"

@@ -1,6 +1,13 @@
 <template>
   <a-layout id="dashBoard">
-    <a-layout-sider>
+    <a-layout-sider style="background: #6495f2">
+      <div class="logo">
+        <img
+          src="../assets/logo.png"
+          alt=""
+          style="width: 150px; height: 150px; margin: 15px; margin-left: 23px;"
+        />
+      </div>
       <Menu />
     </a-layout-sider>
 
@@ -26,11 +33,6 @@ export default {
 <style scoped>
   #dashBoard {
     height: 100%;
-  }
-  #dashboard .logo {
-    height: 10%;
-    color: lightblue;
-    margin: 16px;
   }
   .list-content {
     margin: 60px;

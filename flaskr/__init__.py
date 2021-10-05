@@ -50,6 +50,10 @@ def create_app(test_config=None):
     @app.route('/img/<filename>', methods=["GET"])
     def get_img(filename):
         return send_file('./static/dist/img/{0}'.format(filename))
+    
+    @app.route('/media/<filename>', methods=["GET"])
+    def get_media(filename):
+        return send_file('./static/dist/media/{0}'.format(filename))
 
     @app.route('/favicon.ico', methods=["GET"])
     def get_ico():

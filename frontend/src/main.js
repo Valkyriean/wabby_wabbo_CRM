@@ -12,6 +12,7 @@ import Register from './components/Register.vue';
 import Dashboard from './components/Dashboard.vue';
 import Record from './components/Record.vue';
 import Spread from './components/Spread.vue';
+import Clients from './components/Clients.vue';
 
 Vue.use(VueRouter)
 Vue.use(Antd)
@@ -33,6 +34,7 @@ const routes = {
   '/app/dashboard': Dashboard,
   '/app/record': Record,
   '/app/customer': Spread,
+  '/app/clients': Clients,
 }
 
 new Vue({

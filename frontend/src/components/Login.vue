@@ -168,7 +168,7 @@ export default {
         console.log("hello");
         values.rememberMe = false;
         this.axios
-          .post("/auth/login", {
+          .post("http://172.20.10.3:5000/auth/login", {
             email: values.email,
             password: values.password,
             rememberMe: values.rememberMe,

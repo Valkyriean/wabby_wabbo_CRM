@@ -9,7 +9,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=['POST'])
 def register():
     json_data = request.json
-    email = json_data['email']
+    email = json_data['email'].lower()
     password = json_data['password']
     error = None
     if not email:
@@ -24,27 +24,21 @@ def register():
     if error is None:
         existing_user = Company.objects(email=email).first()
         if existing_user is None:
-            comp = Company()
-            comp.email = email
-            comp.password = generate_password_hash(password)
-            comp.save()
-            token = encode_auth_token(str(comp.pk))
+            company = Company()
+            company.email = email
+            company.password = generate_password_hash(password)
+            company.save()
+            token = encode_auth_token(str(company.pk))
             return jsonify({"status": "Success", "jwt": token})
-
         else:
             error = 'Email already registered.'
     return jsonify({"status": error})
 
 
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return Company.objects(pk=user_id).first()
-
-
 @bp.route('/login', methods=['POST'])
 def login():
     json_data = request.json
-    email = json_data['email']
+    email = json_data['email'].lower()
     password = json_data['password']
     error = None
     try:
@@ -52,33 +46,15 @@ def login():
         email = valid.email
     except EmailNotValidError as e:
         error = str(e)
-    comp = Company.objects(email=email).first()
-    if comp is None:
+    company = Company.objects(email=email).first()
+    if company is None:
         error = 'Incorrect email.'
-    elif not check_password_hash(comp['password'], password):
+    elif not check_password_hash(company['password'], password):
         error = 'Incorrect password.'
     if error is None:
-        token = encode_auth_token(str(comp.pk))
+        token = encode_auth_token(str(company.pk))
         return jsonify({"status": "Success", "jwt": token})
     return jsonify({"status": error})
-
-
-# @bp.route('/unauthorized', methods=['GET'])
-# def unauthorized():
-#     return jsonify({"status": "unauthorized"})
-
-
-# @bp.route('/dashboard')
-# @login_required
-# def dashboard():
-#     return render_template('dashboard.html', name=current_user.email)
-
-
-# @bp.route('/logout', methods=['POST'])
-# @login_required
-# def logout():
-#     logout_user()
-#     return jsonify({"status": "Success"})
 
 
 @bp.route('/changepass', methods=['POST'])
@@ -87,17 +63,17 @@ def change_password():
     token = json_data["jwt"]
     password = json_data['password']
     new_password = json_data['new_password']
-    comp = decode_auth_token(token)
+    company = decode_auth_token(token)
     error = None
-    if isinstance(comp, str):
-        error = comp
-    elif comp is None:
+    if isinstance(company, str):
+        error = company
+    elif company is None:
         error = 'User not exist.'
-    elif not check_password_hash(comp['password'], password):
+    elif not check_password_hash(company['password'], password):
         error = 'Incorrect password.'
     if error is None:
-        comp.password = (generate_password_hash(new_password))
-        comp.save()
+        company.password = (generate_password_hash(new_password))
+        company.save()
         return jsonify({"status": "Success"})
     return jsonify({"status": error})
 
@@ -107,15 +83,15 @@ def delete_account():
     json_data = request.json
     token = json_data["jwt"]
     password = json_data['password']
-    comp = decode_auth_token(token)
+    company = decode_auth_token(token)
     error = None
-    if isinstance(comp, str):
-        error = comp
-    elif comp is None:
+    if isinstance(company, str):
+        error = company
+    elif company is None:
         error = 'User not exist.'
-    elif not check_password_hash(comp['password'], password):
+    elif not check_password_hash(company['password'], password):
         error = 'Incorrect password.'
     if error is None:
-        comp.delete()
+        company.delete()
         return jsonify({"status": "Success"})
     return jsonify({"status": error})

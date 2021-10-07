@@ -7,6 +7,7 @@ from secret import *
 
 # csrf = CSRFProtect()
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -49,6 +50,10 @@ def create_app(test_config=None):
     @app.route('/img/<filename>', methods=["GET"])
     def get_img(filename):
         return send_file('./static/dist/img/{0}'.format(filename))
+    
+    @app.route('/media/<filename>', methods=["GET"])
+    def get_media(filename):
+        return send_file('./static/dist/media/{0}'.format(filename))
 
     @app.route('/favicon.ico', methods=["GET"])
     def get_ico():
@@ -62,4 +67,6 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     from . import dashboard
     app.register_blueprint(dashboard.bp)
+    from . import form
+    app.register_blueprint(form.bp)
     return app

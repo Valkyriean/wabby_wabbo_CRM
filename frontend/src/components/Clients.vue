@@ -54,7 +54,7 @@ export default {
             jwt: localStorage.getItem("rememberMeToken")
         };
         this.axios
-            .post("http://172.20.10.3:5000/form/getcustomer", body)
+            .post("/form/getcustomer", body)
             .then((response) => {
                 console.log(response.data.responses);
                 if(response.data.status == "Success") {

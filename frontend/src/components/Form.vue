@@ -30,7 +30,7 @@ export default {
     if (localStorage.getItem("rememberMeToken")) {
       console.log("exists");
       this.axios
-        .post("http://172.20.10.3:5000/dashboard/", {
+        .post("/dashboard/", {
           jwt: localStorage.getItem("rememberMeToken"),
         })
         .then((response) => {

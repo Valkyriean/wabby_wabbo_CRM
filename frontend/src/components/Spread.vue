@@ -43,7 +43,7 @@ export default {
     };
 
     this.axios
-        .post("http://172.20.10.3:5000/form/checkcustomer", body)
+        .post("/form/checkcustomer", body)
         .then((response) => {
             if(response.data.status == "Success") {
                 response.data.responses.forEach((item) => {

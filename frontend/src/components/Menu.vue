@@ -19,7 +19,7 @@
       <a-sub-menu key="sub3" @titleClick="titleClick">
         <span slot="title"><a-icon type="cluster" /><span>Database</span></span>
         <a-menu-item key="4"> View Database </a-menu-item>
-        <a-menu-item key="5"> Create Form </a-menu-item>
+        <a-menu-item key="5" @click="createFormClick"> Create Form </a-menu-item>
         <a-menu-item key="6"> View Forms </a-menu-item>
       </a-sub-menu>
       <a-menu-item key="8">
@@ -64,7 +64,10 @@ export default {
     clientsClick() {
       this.current = ["8"];
       window.location.href = "/app/clients";
-    }
+    },
+    createFormClick() {
+      window.location.href = "/app/form_create";
+    },
   },
 };
 </script>

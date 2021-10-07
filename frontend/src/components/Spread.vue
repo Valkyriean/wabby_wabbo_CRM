@@ -43,7 +43,7 @@ export default {
     };
 
     this.axios
-        .post("/form/checkcustomer", body)
+        .post("https://wabby-wabbo-crm.herokuapp.com/form/checkcustomer", body)
         .then((response) => {
             if(response.data.status == "Success") {
                 response.data.responses.forEach((item) => {

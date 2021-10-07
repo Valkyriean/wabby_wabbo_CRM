@@ -30,7 +30,7 @@ export default {
     if (localStorage.getItem("rememberMeToken")) {
       console.log("exists");
       this.axios
-        .post("/dashboard/", {
+        .post("https://wabby-wabbo-crm.herokuapp.com/dashboard/", {
           jwt: localStorage.getItem("rememberMeToken"),
         })
         .then((response) => {

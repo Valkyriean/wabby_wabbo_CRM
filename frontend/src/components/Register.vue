@@ -191,7 +191,7 @@ export default {
         console.log("hello");
         values.rememberMe = false;
         this.axios
-          .post("/auth/register", {
+          .post("https://wabby-wabbo-crm.herokuapp.com/auth/register", {
             email: values.email,
             password: values.password,
             rememberMe: values.rememberMe,

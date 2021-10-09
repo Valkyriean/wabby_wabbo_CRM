@@ -17,15 +17,10 @@ def create_form():
     form.count = 0
     form.name = json_data["name"]
     form.description = json_data["description"]
-
     if json_data["anonymous"] == "True":
         form.anonymous = True
-        form.field_list = json_data["field_list"]
-
     else:
         form.anonymous = False
-        field_list = json_data["field_list"]
-        form.field_list = [["Name", "String", "required"]] + field_list
     form.save()
     return jsonify({"status": "Success"})
 

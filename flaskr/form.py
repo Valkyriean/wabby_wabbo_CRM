@@ -4,6 +4,7 @@ from flaskr.dbmodels import decode_auth_token, Form, Response, Customer
 
 bp = Blueprint('form', __name__, url_prefix='/form')
 
+
 @bp.route('/getform', methods=['POST'])
 def get_form():
     json_data = request.json
@@ -13,6 +14,7 @@ def get_form():
         return jsonify({"status": "Form not exist"})
     field_list = form.field_list
     return jsonify({"status": "Success", "field_list": field_list})
+
 
 @bp.route('/saveresponse', methods=['POST'])
 def save_response():
@@ -75,7 +77,7 @@ def show_response():
         return jsonify({"status": "Form not exist"})
     header = []
     for l in form.field_list:
-        header.append(str(l[0]))
+        header.append(str(l["question_name"]))
     responses = Response.objects(form_id=str(form_id))
     return_list = []
     for r in responses:
@@ -110,7 +112,7 @@ def check_customer():
             return jsonify({"status": "Form not exist"})
         header = []
         for l in form.field_list:
-            header.append(str(l[0]))
+            header.append(str(l["question_name"]))
         temp["field_list"] = header
         temp["response_id"] = str(r.pk)
         temp["response"] = r.response_list

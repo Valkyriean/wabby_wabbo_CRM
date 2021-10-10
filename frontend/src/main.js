@@ -67,9 +67,8 @@ var router = new VueRouter({
       component: CreateForm
     },
     {
-      path: '/app/form',
+      path: '/app/form/:id',
       component: CustomerResponse,
-      props: route => ({ query: route.query.q }),
     }
   ]
 });

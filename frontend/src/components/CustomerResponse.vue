@@ -6,12 +6,12 @@
     export default {
         data() {
             return {
-                url,
+                formId,
             }
         },
         mounted() {
-            this.url = window.location.href;
-            console.log(this.url);
+            console.log(this.$route.params);
+            this.formId = this.$route.params.formId;
         }
     }
 </script>

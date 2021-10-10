@@ -21,6 +21,7 @@ def create_form():
         form.anonymous = True
     else:
         form.anonymous = False
+    form.field_list = json_data["field_list"]
     form.save()
     return jsonify({"status": "Success"})
 

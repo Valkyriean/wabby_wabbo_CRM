@@ -233,7 +233,7 @@ export default {
         body.field_list.push(questionData);
       });
       if(this.anonymous == false) {
-        body.field_list.push({
+        body.field_list.unshift({
           question_name: "Name",
           type: "shortAnswer",
           required: true

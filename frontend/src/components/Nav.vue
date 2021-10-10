@@ -10,9 +10,9 @@
       </div>
       <div class="t_contain">
         <div class="contain_center">
-          <a class="title_tag" href="/">Home</a>
-          <a class="title_tag" href="/app/login">Login</a>
-          <a class="title_tag" href="/app/register">Register</a>
+          <a class="title_tag" @click="homeClick">Home</a>
+          <a class="title_tag" @click="loginClick">Login</a>
+          <a class="title_tag" @click="registerClick">Register</a>
         </div>
       </div>
     </div>
@@ -26,6 +26,18 @@ export default {
       current: ["mail"],
     };
   },
+  methods: {
+    homeClick() {
+      this.$router.push('/');
+    },
+    loginClick() {
+      console.log("login");
+      this.$router.push('/app/login');
+    },
+    registerClick() {
+      this.$router.push('/app/register/');
+    }
+  }
 };
 </script>
 

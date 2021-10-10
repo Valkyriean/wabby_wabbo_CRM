@@ -55,11 +55,11 @@ export default {
     },
     logOut() {
       if ("rememberMeToken" in localStorage) localStorage.removeItem("rememberMeToken");
-      window.location.href = "/";
+      this.$router.push("/");
     },
     dashboardClick() {
       this.current = ["0"];
-      window.location.href = "/app/dashboard";
+      this.$router.push("/app/dashboard");
     },
     clientsClick() {
       this.current = ["8"];

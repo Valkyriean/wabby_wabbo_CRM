@@ -1,16 +1,5 @@
 <template>
-  <div id="app">
-    <Nav />
-    <div class="place-holder" />
-    <Carousel />
-    <img
-      alt="Vue logo"
-      src="./assets/logo.png"
-      style="width: 300px; height: 300px"
-    />
-
-    <!-- <Login /> -->
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>

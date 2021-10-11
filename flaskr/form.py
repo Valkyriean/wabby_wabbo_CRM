@@ -13,7 +13,9 @@ def get_form():
     if form is None:
         return jsonify({"status": "Form not exist"})
     field_list = form.field_list
-    return jsonify({"status": "Success", "field_list": field_list})
+    name = form.name
+    description = form.description
+    return jsonify({"status": "Success", "field_list": field_list, "name": name, "description": description})
 
 
 @bp.route('/saveresponse', methods=['POST'])

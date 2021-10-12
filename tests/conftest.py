@@ -10,6 +10,7 @@ from mongoengine.connection import disconnect
 from flaskr.dbmodels import Company
 from werkzeug.security import check_password_hash, generate_password_hash
 
+
 @pytest.fixture
 def app():
     app = create_app({'TESTING': True})
@@ -55,6 +56,7 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
 
 class AuthActions(object):
     def __init__(self, client):

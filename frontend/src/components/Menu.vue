@@ -11,22 +11,15 @@
         <a-icon type="home" />
         <span @click="dashboardClick">Dashboard</span>
       </a-menu-item>
-      <a-sub-menu key="sub2" @titleClick="titleClick">
-        <span slot="title"><a-icon type="crown" /><span>Profile</span></span>
-        <a-menu-item key="1"> General </a-menu-item>
-        <a-menu-item key="2"> Security </a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="sub3" @titleClick="titleClick">
-        <span slot="title"><a-icon type="cluster" /><span>Database</span></span>
-        <a-menu-item key="4"> View Database </a-menu-item>
-        <a-menu-item key="5" @click="createFormClick"> Create Form </a-menu-item>
-        <a-menu-item key="6"> View Forms </a-menu-item>
-      </a-sub-menu>
-      <a-menu-item key="8">
+      <a-menu-item key="1">
+        <a-icon type="crown" />
+        <span @click="createFormClick">Create Form</span>
+      </a-menu-item>
+      <a-menu-item key="2">
         <a-icon type="build" />
         <span @click="clientsClick">Clients</span>
       </a-menu-item>
-      <a-menu-item key="7" @click="logOut()">
+      <a-menu-item key="3" @click="logOut()">
         <a-icon type="import" />
         <span>Log out</span>
       </a-menu-item>

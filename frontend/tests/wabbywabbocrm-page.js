@@ -25,7 +25,7 @@ exports.WabbywabboCrmPage = class WabbywabboCrmPage {
 
   async goToRegister() {
     await this.RegisterLink.first().click();
-    await expect(this.page).toHaveURL('/app/register');
+    await expect(this.page).toHaveURL('/app/register/');
     await expect(this.page.locator('text=Sign up for').first()).toBeVisible();
   }
 }

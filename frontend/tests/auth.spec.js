@@ -14,7 +14,7 @@ test('test user registration', async ({ page }) => {
   await crm.goToRegister();
 
   // fill in and submit
-  await crm.page.fill('[placeholder="Username"]', testEmail);
+  await crm.page.fill('[placeholder="Email"]', testEmail);
   await crm.page.fill('[placeholder="Password"]', testPassword);
   await crm.page.fill('[placeholder="Confirm password"]', testPassword);
   await page.click('button:below([placeholder="Confirm password"])');
@@ -28,7 +28,7 @@ test('test user login', async ({ page }) => {
   await crm.goto();
   await crm.goToLogin();
   // fill in and submit
-  await crm.page.fill('[placeholder="Username"]', testEmail);
+  await crm.page.fill('[placeholder="Email"]', testEmail);
   await crm.page.fill('[placeholder="Password"]', testPassword);
   await page.click('text=Log in');
   // test whether go to dashboard

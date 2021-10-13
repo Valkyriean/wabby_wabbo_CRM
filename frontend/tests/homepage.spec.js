@@ -6,6 +6,7 @@ test('test homepage functionalities', async ({ page }) => {
   await crm.goto();
   // Expect a title "to contain" a substring.
   await expect(crm.page).toHaveTitle(/wabby_wabbo_crm/);
-  await expect(crm.LoginLink).toHaveAttribute('href', '/app/login');
-  await expect(crm.RegisterLink).toHaveAttribute('href', '/app/register');
+
+  await crm.goToRegister();
+  await crm.goToLogin();
 });

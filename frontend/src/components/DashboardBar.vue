@@ -4,7 +4,7 @@
       <div class="t_contain">
         <div class="contain_center">
           <a class="title_tag" href="/">Home</a>
-          <a class="title_tag">Log out</a>
+          <a class="title_tag" @click="logOut()">Log out</a>
         </div>
       </div>
     </div>
@@ -17,6 +17,12 @@ export default {
     return {
       current: ["mail"],
     };
+  },
+  methods: {
+    logOut() {
+      if ("rememberMeToken" in localStorage) localStorage.removeItem("rememberMeToken");
+      this.$router.push("/");
+    },
   },
 };
 </script>

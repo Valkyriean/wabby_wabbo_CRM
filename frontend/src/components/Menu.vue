@@ -1,25 +1,26 @@
 <template>
   <div>
+ <!-- :default-selected-keys="['0']" -->
     <a-menu
 
-      :default-selected-keys="['1']"
+     
       :open-keys.sync="openKeys"
       mode="inline"
       @click="handleClick"
     >
-      <a-menu-item key="0">
+      <a-menu-item key="0" @click="dashboardClick">
         <a-icon type="home" />
-        <span @click="dashboardClick">Dashboard</span>
+        <span >Dashboard</span>
       </a-menu-item>
-      <a-menu-item key="1">
+      <a-menu-item key="1" @click="createFormClick">
         <a-icon type="crown" />
-        <span @click="createFormClick">Create Form</span>
+        <span >Create Form</span>
       </a-menu-item>
-      <a-menu-item key="2">
+      <a-menu-item key="2" @click="clientsClick">
         <a-icon type="build" />
-        <span @click="clientsClick">Clients</span>
+        <span>Clients</span>
       </a-menu-item>
-      <a-menu-item key="3" @click="logOut()">
+      <a-menu-item key="3" @click="logOut">
         <a-icon type="import" />
         <span>Log out</span>
       </a-menu-item>

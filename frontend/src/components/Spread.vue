@@ -1,24 +1,10 @@
 <template>
-  <a-layout id="Record">
-      <a-layout-sider style="background: #6495f2">
-        <div class="logo">
-          <img
-            src="../assets/logo.png"
-            alt=""
-            style="width: 150px; height: 150px; margin: 15px; margin-left: 23px;"
-          />
-        </div>
-        <Menu />
-      </a-layout-sider>
-      <a-layout-content class="list-content">
-        <DashboardBar />
-        <div class="place-holder" />
+  <div>
         <li v-for="listData in lists" :key="listData.id">
             <a-table :columns="listData.columns" :data-source="listData.data">
             </a-table>
         </li>
-      </a-layout-content>
-    </a-layout>
+  </div>
 </template>
 
 <script>

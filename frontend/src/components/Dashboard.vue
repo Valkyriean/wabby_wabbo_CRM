@@ -17,8 +17,9 @@
     <!-- <Login /> -->
     <a-layout-content>
 
-      <List class="list-content"/>
-                    <DashboardBar />
+      <div class="place-holder" />
+      <router-view></router-view>
+      <DashboardBar />
 
     </a-layout-content>
   </a-layout>
@@ -44,5 +45,8 @@ export default {
   }
   .list-content {
     margin: 60px;
+  }
+  .place-holder {
+    height: 130px;
   }
 </style>

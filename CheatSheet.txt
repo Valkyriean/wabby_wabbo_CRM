@@ -35,3 +35,5 @@ Testing frontend:
 npm run serve
 IN CASE OF SCRIPT IS NOT ENABLED ON THIS MACHINE:
 Set-ExecutionPolicy RemoteSigned
+
+npm install -d vue-clipboard2

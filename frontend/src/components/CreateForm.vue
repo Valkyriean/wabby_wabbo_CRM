@@ -1,30 +1,27 @@
 <template>
-  <a-layout id="form">
-      <a-layout-sider style="background: #6495f2">
-        <div class="logo">
-          <img
-            src="../assets/logo.png"
-            alt=""
-            style="width: 150px; height: 150px; margin: 15px; margin-left: 23px;"
-          />
-        </div>
-        <Menu />
-      </a-layout-sider>
-      <a-layout-content class="list-content">
-        <DashboardBar />
-        <div class="place-holder" />
+  <div>
           <div class="form-content">
             <div class="form-title">
               <a-row>
+                <div class="title-text">
+                  Title
+                </div>
+              </a-row>
+              <a-row>
                 <a-input id="title" v-model="title" size="large" style="margin-left: -1%"/>
+              </a-row>
+              <a-row>
+                <div class="description-text">
+                  Description
+                </div>
               </a-row>
               <a-row>
                 <a-textarea placeholder="Please write your description" auto-size style="margin-left: -1%" v-model="description"/>
               </a-row>
               <br />
               <a-row>
-                <a-row>
-                  <a-col :span="2">
+                <a-row class="anonymous-position">
+                  <a-col :span="4">
                     <div>Anonymous</div>
                   </a-col>
                   <a-col :span="2">
@@ -38,6 +35,11 @@
           <a-card v-show="anonymous == false" style="width: 90%; margin-left: 5%;">
             <a-card-meta>
               <div slot="title">
+                <a-row>
+                  <div class="question-name">
+                    Your Name
+                  </div>
+                </a-row>
                 <a-row>
                   <a-col :span="12">
                     <a-input value="Name" size="large" disabled/>
@@ -71,6 +73,11 @@
             <a-card style="width: 90%; margin-left: 5%;">
               <a-card-meta>
                 <div slot="title">
+                  <a-row>
+                    <div class="question-name">
+                      Question {{listItem.key + 1}}
+                    </div>
+                  </a-row>
                   <a-row>
                     <a-col :span="12">
                       <a-input v-model="listItem.title" size="large"/>
@@ -124,8 +131,7 @@
               Submit
             </a-button>
           </div>
-        </a-layout-content>
-    </a-layout>
+  </div>
 </template>
 
 <script>
@@ -160,46 +166,63 @@ export default {
       });
     },
     deleteQuestionClick(event) {
-      let index = -1;
-      for(let i = 0; i < this.listData.lenth; i ++) {
+      let index = 0;
+      for(let i = 0; i < this.listData.length; i ++) {
         if(this.listData[i].key == event.target.id) {
-          index = key;
-        }
-      }
+          index = i;
+        };
+      };
       this.listData.splice(index, 1);
     },
     requiredClick() {
       console.log(this.listData);
     },
     typeChange(value) {
-      console.log(value);
       const data = value.split(";");
-      if(data[1] == "1") {
-        this.listData[parseInt(data[0])].type = "multipleChoice";
-        this.listData[parseInt(data[0])].choiceKey = 0;
-        this.listData[parseInt(data[0])].choice = [{value: "option0", key: 0}];
-      } else {
-        this.listData[parseInt(data[0])].type = "shortAnswer";
-      }
-    },
-    addChoiceClick(event) {
-      this.listData[event.target.id].choiceKey += 1;
-      this.listData[event.target.id].choice.push({
-        value: "option" + this.listData[event.target.id].choiceKey, 
-        key: this.listData[event.target.id].choiceKey
-      });
-      console.log(event.target.id);
-    },
-    deleteChoiceClick(event) {
-      const keys = event.target.id.split(";");
-      let index = -1;
-      for(let i = 0; i < this.listData[keys[0]].choice.length; i ++) {
-        if(this.listData[keys[0]].choice[i].key == keys[1]) {
+      var index = -1;
+      for(let i = 0; i < this.listData.length; i ++) {
+        if(this.listData[i].key == parseInt(data[0])) {
           index = i;
         };
       };
-      this.listData[keys[0]].choice.splice(index, 1);
-      console.log(this.listData[keys[0]].choice);
+      if(data[1] == "1") {
+        this.listData[index].type = "multipleChoice";
+        this.listData[index].choiceKey = 0;
+        this.listData[index].choice = [{value: "option0", key: 0}];
+      } else {
+        this.listData[index].type = "shortAnswer";
+      }
+    },
+    addChoiceClick(event) {
+      var index = -1;
+      for(var i = 0; i < this.listData.length; i ++) {
+        if(this.listData[i].key == event.target.id) {
+          index = i;
+        };
+      };
+
+      this.listData[index].choiceKey += 1;
+      this.listData[index].choice.push({
+        value: "option" + this.listData[index].choiceKey, 
+        key: this.listData[index].choiceKey
+      });
+    },
+    deleteChoiceClick(event) {
+      const keys = event.target.id.split(";");
+      var index = -1;
+      var question_index = -1;
+      for(let i = 0; i < this.listData.length; i ++) {
+        if(this.listData[i].key == keys[0]) {
+          question_index = i;
+        }
+      }
+      for(let i = 0; i < this.listData[question_index].choice.length; i ++) {
+        if(this.listData[question_index].choice[i].key == keys[1]) {
+          index = i;
+        };
+      };
+      this.listData[question_index].choice.splice(index, 1);
+      // console.log(this.listData[question_index].choice);
     },
     // anonymousClick(value) {
     //   if(value) {
@@ -264,9 +287,26 @@ export default {
   }
   .form-title {
     margin-right: 8%;
+    margin-left: 2%;
   }
   .control-buttons {
     margin-left: 45%;
     margin-top: 20px;
+  }
+  .title-text {
+    font-size: 16px;
+    margin-bottom: 1%;
+  }
+  .description-text {
+    font-size: 16px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+  .anonymous-position {
+    margin-left: 41%;
+  }
+  .question-name {
+    margin-bottom: 1%;
+    margin-top: -4px;
   }
 </style>

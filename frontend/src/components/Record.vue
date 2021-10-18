@@ -1,25 +1,9 @@
 <template>
-  <a-layout id="Record">
-    <a-layout-sider style="background: #6495f2">
-      <div class="logo">
-        <img
-          src="../assets/logo.png"
-          alt=""
-          style="width: 150px; height: 150px; margin: 15px; margin-left: 23px;"
-        />
-      </div>
-      <Menu />
-    </a-layout-sider>
-    <a-layout-content class="list-content">
-      <DashboardBar />
-      <div class="place-holder" />
       <a-table :columns="columns" :data-source="data">
         <span slot="action" slot-scope="text, record">
           <a :id="record.id" @click="viewClick">View All</a>
         </span>
       </a-table>
-    </a-layout-content>
-  </a-layout>
 </template>
 <script>
 

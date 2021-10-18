@@ -1,28 +1,27 @@
 <template>
   <div>
+ <!-- :default-selected-keys="['0']" -->
     <a-menu
-
-      :default-selected-keys="['1']"
       :open-keys.sync="openKeys"
       mode="inline"
-      @click="handleClick"
     >
-      <a-menu-item key="0">
+      <a-menu-item key="0" @click="dashboardClick">
         <a-icon type="home" />
-        <span @click="dashboardClick">Dashboard</span>
+        <span >Dashboard</span>
       </a-menu-item>
-      <a-menu-item key="1">
+      <a-menu-item key="1" @click="createFormClick">
         <a-icon type="crown" />
-        <span @click="createFormClick">Create Form</span>
+        <span >Create Form</span>
       </a-menu-item>
-      <a-menu-item key="2">
+      <a-menu-item key="2" @click="clientsClick">
         <a-icon type="build" />
-        <span @click="clientsClick">Clients</span>
+        <span>Clients</span>
       </a-menu-item>
-      <a-menu-item key="3" @click="logOut()">
-        <a-icon type="import" />
-        <span>Log out</span>
-      </a-menu-item>
+      <a-sub-menu key="sub3" @titleClick="titleClick">
+        <span slot="title"><a-icon type="cluster" /><span>Profile</span></span>
+        <a-menu-item key="4" @click="changePassword"> Change Password </a-menu-item>
+        <a-menu-item key="5" @click="logOut"> Log out </a-menu-item>
+      </a-sub-menu>
     </a-menu>
   </div>
 </template>
@@ -52,14 +51,19 @@ export default {
     },
     dashboardClick() {
       this.current = ["0"];
-      this.$router.push("/app/dashboard");
+      this.$router.push("/app/form");
     },
     clientsClick() {
-      this.current = ["8"];
-      window.location.href = "/app/clients";
+      this.current = ["2"];
+      this.$router.push("/app/clients");
     },
     createFormClick() {
-      window.location.href = "/app/form_create";
+      this.current = ["1"];
+      this.$router.push("/app/form_create");
+    },
+    changePassword(){
+      this.current = ["4"];
+      this.$router.push("/app/change_password");
     },
   },
 };

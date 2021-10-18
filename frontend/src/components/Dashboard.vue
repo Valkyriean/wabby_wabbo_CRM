@@ -1,5 +1,6 @@
 <template>
   <a-layout id="dashBoard">
+
     <a-layout-sider style="background: #6495f2">
       <div class="logo">
         <img
@@ -8,24 +9,32 @@
           style="width: 150px; height: 150px; margin: 15px; margin-left: 23px;"
         />
       </div>
+
       <Menu />
+
     </a-layout-sider>
 
     <!-- <Login /> -->
     <a-layout-content>
-      <List class="list-content"/>
+
+      <div class="place-holder" />
+      <router-view></router-view>
+      <DashboardBar />
+
     </a-layout-content>
   </a-layout>
 </template>
 
 <script>
 import Menu from "./Menu.vue";
+import DashboardBar from "./DashboardBar.vue";
 import List from "./Form.vue";
 
 export default {
   name: "App",
   components: {
     Menu,
+    DashboardBar,
     List,
   },
 };
@@ -36,5 +45,8 @@ export default {
   }
   .list-content {
     margin: 60px;
+  }
+  .place-holder {
+    height: 130px;
   }
 </style>

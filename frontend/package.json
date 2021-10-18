@@ -14,6 +14,7 @@
     "ui-vue-antd": "^1.0.6",
     "vue": "^2.6.11",
     "vue-axios": "^3.3.7",
+    "vue-clipboard2": "^0.3.3",
     "vue-router": "^3.5.2"
   },
   "devDependencies": {

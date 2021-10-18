@@ -1,25 +1,9 @@
 <template>
-    <a-layout id="clients">
-      <a-layout-sider style="background: #6495f2">
-        <div class="logo">
-          <img
-            src="../assets/logo.png"
-            alt=""
-            style="width: 150px; height: 150px; margin: 15px; margin-left: 23px;"
-          />
-        </div>
-        <Menu />
-      </a-layout-sider>
-      <a-layout-content class="list-content">
-        <DashboardBar />
-        <div class="place-holder" />
         <a-table :columns="columns" :data-source="data">
             <span slot="action" slot-scope="text, record">
-            <a :id="record.id" @click="viewClick">View All</a>
+            <a :id="record.key" @click="viewClick">View All</a>
             </span>
         </a-table>
-        </a-layout-content>
-    </a-layout>
 </template>
 
 <script>
@@ -54,7 +38,7 @@ export default {
             jwt: localStorage.getItem("rememberMeToken")
         };
         this.axios
-            .post("/form/getcustomer", body)
+            .post("https://wabby-wabbo-crm.herokuapp.com/form/getcustomer", body)
             .then((response) => {
                 console.log(response.data.responses);
                 if(response.data.status == "Success") {
@@ -73,9 +57,10 @@ export default {
     },
     methods: {
         viewClick(event) {
-        const id = event.target.id;
-        localStorage.setItem("customer_id", id);
-        window.location.href = "/app/customer";
+            const id = event.target.id;
+            localStorage.setItem("customer_id", id);
+            // console.log(event.target.id)
+            window.location.href = "/app/customer";
         }
     }
 };

@@ -5,6 +5,7 @@ import Antd from 'ant-design-vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import 'ant-design-vue/dist/antd.css';
+import VueClipboard from 'vue-clipboard2';
 
 import App from './App.vue';
 import Login from './components/Login.vue';
@@ -16,10 +17,13 @@ import Clients from './components/Clients.vue';
 import CreateForm from './components/CreateForm.vue';
 import CustomerResponse from './components/CustomerResponse.vue';
 import Main from './components/Main.vue';
+import Form from './components/Form.vue';
+import ChangePassword from './components/ChangePassword.vue';
 
 Vue.use(VueRouter);
 Vue.use(Antd);
 Vue.use(VueAxios, axios);
+Vue.use(VueClipboard);
 Vue.config.productionTip = false;
 
 // const routes = [
@@ -49,23 +53,45 @@ var router = new VueRouter({
     {
       path: '/app/dashboard',
       component: Dashboard,
+      children: [
+        {
+          path: '/app/form',
+          component: Form,
+        },
+        {
+          path: '/app/customer',
+          component: Spread,
+        },
+        {
+          path: '/app/clients',
+          component: Clients,
+        },
+        {
+          path: '/app/form_create',
+          component: CreateForm
+        },
+        {
+          path: '/app/record',
+          component: Record,
+        },
+        {
+          path: '/app/change_password',
+          component: ChangePassword,
+        },
+      ]
     },
-    {
-      path: '/app/record',
-      component: Record,
-    },
-    {
-      path: '/app/customer',
-      component: Spread,
-    },
-    {
-      path: '/app/clients',
-      component: Clients,
-    },
-    {
-      path: '/app/form_create',
-      component: CreateForm
-    },
+    // {
+    //   path: '/app/customer',
+    //   component: Spread,
+    // },
+    // {
+    //   path: '/app/clients',
+    //   component: Clients,
+    // },
+    // {
+    //   path: '/app/form_create',
+    //   component: CreateForm
+    // },
     {
       path: '/app/form/:id',
       component: CustomerResponse,

@@ -1,6 +1,6 @@
 <template>
     <div class="outer-wrapper">
-        <a-form v-if="status" layout="vertical" :form="form">
+        <a-form v-if="status === 'unfinished'" layout="vertical" :form="form">
             <li v-for="question in fieldList" :key="question.id">
                 <a-form-item 
                     v-if="question.type == 'shortAnswer'" 
@@ -31,8 +31,11 @@
                 </a-button>
             </a-form-item>
         </a-form>
+        <div v-else-if="status === 'success'">
+            Your response has been submitted, thank you!
+        </div>
         <div v-else>
-
+            Something went wrong, please try again!
         </div>
     </div>
 </template>
@@ -49,7 +52,7 @@
                     height: '30px',
                     lineHeight: '30px',
                 },
-                status: true,
+                status: 'unfinished',
             }
         },
         mounted() {
@@ -72,7 +75,7 @@
                             this.fieldList.push(questionItem);
                         });
                     } else {
-                        this.status = false;
+
                     };
                 });
         },
@@ -100,11 +103,13 @@
                     })
                     .then((response) => {
                         if(response.data.status == "Success") {
+                            this.status = 'success';
                             console.log("Success");
                             // this.$router.push('/app/form/finished');
                         }
                     })
                     .catch((error) => {
+                        this.status = 'error';
                         console.log(error);
                     })
             },

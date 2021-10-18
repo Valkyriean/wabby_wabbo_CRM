@@ -17,7 +17,7 @@ test('test user registration', async ({ page }) => {
   await crm.page.fill('[placeholder="Email"]', testEmail);
   await crm.page.fill('[placeholder="Password"]', testPassword);
   await crm.page.fill('[placeholder="Confirm password"]', testPassword);
-  await page.click('button:below([placeholder="Confirm password"])');
+  await crm.page.click('button:below([placeholder="Confirm password"])');
   // test whether go to dashboard
   await expect(crm.page).toHaveURL('/app/dashboard');
 });
@@ -30,7 +30,25 @@ test('test user login', async ({ page }) => {
   // fill in and submit
   await crm.page.fill('[placeholder="Email"]', testEmail);
   await crm.page.fill('[placeholder="Password"]', testPassword);
-  await page.click('text=Log in');
+  await crm.page.click('text=Log in');
   // test whether go to dashboard
   await expect(crm.page).toHaveURL('/app/dashboard');
+  
+});
+
+test('test user log out', async ({ page }) => {
+  // goto login  page
+  const crm = new WabbywabboCrmPage(page);
+  await crm.goto();
+  await crm.goToLogin();
+  // fill in and submit
+  await crm.page.fill('[placeholder="Email"]', testEmail);
+  await crm.page.fill('[placeholder="Password"]', testPassword);
+  await crm.page.click('text=Log in');
+  // test whether go to dashboard
+  await expect(crm.page).toHaveURL('/app/dashboard');
+  // test log out
+  await crm.page.locator('text=Log out').first().click();
+  // test whether go to dashboard
+  await expect(crm.page).toHaveTitle(/wabby_wabbo_crm/);
 });

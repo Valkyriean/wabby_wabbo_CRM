@@ -6,7 +6,7 @@ const config = {
         baseURL: 'https://wabby-wabbo-crm.herokuapp.com',
         browserName: 'chromium',
         headless: true,
-    },
+    }  
 };
 
 module.exports = config;

@@ -60,8 +60,13 @@ def create_app(test_config=None):
         return send_file('./static/dist/favicon.ico')
 
     @app.route('/app/<foo>', methods=["GET"])
-    def login(foo):
+    def serve(foo):
         return send_file('./static/dist/index.html')
+
+    @app.route('/app/<foo>/<bar>', methods=["GET"])
+    def serve1(foo, bar):
+        return send_file('./static/dist/index.html')
+
 
     from . import auth
     app.register_blueprint(auth.bp)

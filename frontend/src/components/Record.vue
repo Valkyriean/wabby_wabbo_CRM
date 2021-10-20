@@ -24,6 +24,8 @@ export default {
     };
   },
   mounted() {
+      this.columns = []
+      this.data = []
     const body = {
       form_id: localStorage.getItem("record_id"),
       jwt: localStorage.getItem("rememberMeToken")

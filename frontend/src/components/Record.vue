@@ -37,11 +37,12 @@ export default {
           if(response.data.status == "Success") {
             // set column names
             var columnNames = [];
+            var counter = 0;
             response.data.field_list.forEach((item) => {
               this.columns.push({
                 title: item,
                 dataIndex: item.toLowerCase(),
-                key: item.toLowerCase(),
+                key: counter ++,
               });
               columnNames.push(item.toLowerCase());
             });
@@ -65,7 +66,7 @@ export default {
             });
           } else {
             localStorage.removeItem("rememberMeToken");
-            window.location.href = "/app/login";
+            this.$router.push("/app/login");
           }
         });
   },
@@ -73,7 +74,7 @@ export default {
     viewClick(event) {
       const id = event.target.id;
       localStorage.setItem("customer_id", id);
-      window.location.href = "/app/customer";
+      this.$router.push("/app/customer");
     }
   }
 };

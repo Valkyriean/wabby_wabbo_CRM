@@ -67,7 +67,6 @@ def create_app(test_config=None):
     def serve1(foo, bar):
         return send_file('./static/dist/index.html')
 
-
     from . import auth
     app.register_blueprint(auth.bp)
     from . import dashboard

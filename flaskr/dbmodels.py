@@ -28,7 +28,7 @@ def encode_auth_token(user_id):
 
 def decode_auth_token(auth_token):
     try:
-        payload = jwt.decode(auth_token, SECRET_KEY, algorithms='HS256')
+        payload = jwt.decode(auth_token, os.environ.get('SECRET_KEY', None), algorithms='HS256')
         pk = payload['sub']
         company = Company.objects(pk=pk).first()
         if company is None:

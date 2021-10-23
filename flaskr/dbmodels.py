@@ -1,7 +1,8 @@
 import mongoengine as me
 import jwt
 import datetime
-from secret import SECRET_KEY
+import os
+# from secret import SECRET_KEY
 
 
 class Company(me.Document):
@@ -18,7 +19,7 @@ def encode_auth_token(user_id):
         }
         return jwt.encode(
             payload,
-            SECRET_KEY,
+            os.environ.get('SECRET_KEY', None),
             algorithm='HS256'
         )
     except Exception as e:

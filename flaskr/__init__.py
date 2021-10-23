@@ -2,8 +2,9 @@ import os
 from flask import Flask, send_file
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
-from secret import *
+# from secret import *
 # from flask_wtf.csrf import CSRFProtect
+
 
 # csrf = CSRFProtect()
 
@@ -12,11 +13,12 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
+
     app.config.from_mapping(
-        SECRET_KEY=SECRET_KEY,
+        SECRET_KEY=os.environ.get('SECRET_KEY', None)
     )
-    app.config['MONGODB_HOST'] = 'mongodb+srv://'+DB_USERNAME+':'+DB_PASSWORD + \
-        '@cluster0.gixca.mongodb.net/crm?retryWrites=true&w=majority&ssl_cert_reqs=CERT_NONE'
+    app.config['MONGODB_HOST'] = 'mongodb+srv://' + os.environ.get('DB_USERNAME', None) + ':' + os.environ.get(
+        'DB_PASSWORD', None) + '@cluster0.gixca.mongodb.net/crm?retryWrites=true&w=majority&ssl_cert_reqs=CERT_NONE'
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

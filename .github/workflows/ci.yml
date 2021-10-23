@@ -45,4 +45,8 @@ jobs:
         pip install -e .
     
     - name: Test with pytest
+      env:
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_USERNAME: ${{ secrets.GITHUB_TOKEN }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: pytest

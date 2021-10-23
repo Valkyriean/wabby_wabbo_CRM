@@ -76,7 +76,7 @@ def test_login_validate_input(auth, db, app,  email, password, message):
     assert message in response.data
 
 
-def test_logout(client, auth):
+def test_logout(auth, db, app, client):
     auth.login()
     auth.logout()
     assert 'user_id' not in session

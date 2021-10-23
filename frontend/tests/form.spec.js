@@ -42,7 +42,9 @@ test('test create form without question contained', async ({ page }) => {
     // await page.click('button:left-of(button:has-text("Submit"))');
     await page.click('button:has-text("Submit")');
     await expect(page).toHaveURL('/app/dashboard');
-    await expect(page.locator('text = Test form').first()).toBeVisible();
+    await expect(page.locator('text = "Copy URL"').first()).toBeVisible();
+    // await expect(page.locator(':has-text("Test form")').first()).toBeVisible();
+    // expect(page.textContent()).toHaveValue("Test form");
     //
 });
 

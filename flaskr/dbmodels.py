@@ -10,10 +10,11 @@ class Company(me.Document):
     password = me.StringField()
 
 
-def encode_auth_token(user_id):
+# Get an authentication valid for given days
+def encode_auth_token(user_id, valid_for):
     try:
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=3),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=valid_for),
             'iat': datetime.datetime.utcnow(),
             'sub': user_id
         }
@@ -26,6 +27,7 @@ def encode_auth_token(user_id):
         return e
 
 
+# Check if the token is valid and return the Company object if so
 def decode_auth_token(auth_token):
     try:
         payload = jwt.decode(auth_token, os.environ.get('SECRET_KEY', None), algorithms='HS256')

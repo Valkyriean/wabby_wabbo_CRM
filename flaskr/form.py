@@ -5,6 +5,7 @@ from flaskr.dbmodels import decode_auth_token, Form, Response, Customer
 bp = Blueprint('form', __name__, url_prefix='/form')
 
 
+# Return the form for customer to fill
 @bp.route('/getform', methods=['POST'])
 def get_form():
     json_data = request.json
@@ -18,6 +19,7 @@ def get_form():
     return jsonify({"status": "Success", "field_list": field_list, "name": name, "description": description})
 
 
+# Save the response filled by customer
 @bp.route('/saveresponse', methods=['POST'])
 def save_response():
     json_data = request.json
@@ -47,6 +49,7 @@ def save_response():
     return jsonify({"status": "Success"})
 
 
+# Delete one response by Company
 @bp.route('/deleteresponse', methods=['POST'])
 def delete_response():
     json_data = request.json
@@ -66,6 +69,7 @@ def delete_response():
     return jsonify({"status": "Success"})
 
 
+# Get all the responses of of one form
 @bp.route('/showresponse', methods=['POST'])
 def show_response():
     json_data = request.json
@@ -92,6 +96,7 @@ def show_response():
     return jsonify({"status": "Success", "name": form.name, "description": form.description, "anonymous": form.anonymous, "field_list": header, "responses": return_list})
 
 
+# Get all responsed made by one customer
 @bp.route('/checkcustomer', methods=['POST'])
 def check_customer():
     json_data = request.json
@@ -122,6 +127,7 @@ def check_customer():
     return jsonify({"status": "Success", "responses": return_list})
 
 
+# Get list of all Customers have interactived with this company
 @bp.route('/getcustomer', methods=['POST'])
 def get_customer():
     json_data = request.json

@@ -12,7 +12,7 @@ import DashboardBar from "./DashboardBar.vue";
 const columns = [];
 const data = [];
 export default {
-   components:{
+  components:{
     Menu,
     DashboardBar,
   },

@@ -108,6 +108,7 @@ export default {
       hasErrors,
       form: this.$form.createForm(this, { name: "horizontal_login" }),
       pwd: "",
+      rememberMe:true,
     };
   },
   mounted() {
@@ -154,6 +155,7 @@ export default {
       return isFieldTouched("password") && getFieldError("password");
     },
     getRememberMe(checked) {
+      this.rememberMe = checked;
       console.log(`Remember me switch to ${checked}`);
     },
     recordPassword(e) {
@@ -166,12 +168,11 @@ export default {
           console.log("Received values of form: ", values);
         }
         console.log("hello");
-        values.rememberMe = false;
         this.axios
           .post("https://wabby-wabbo-crm.herokuapp.com/auth/login", {
             email: values.email,
             password: values.password,
-            rememberMe: values.rememberMe,
+            rememberMe: this.rememberMe,
           })
           .then((response) => {
             checkRes(response.data);

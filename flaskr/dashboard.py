@@ -5,6 +5,7 @@ from flaskr.dbmodels import decode_auth_token, Form, Response
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
 
+# Company create a form
 @bp.route('/createform', methods=['POST'])
 def create_form():
     json_data = request.json
@@ -26,6 +27,7 @@ def create_form():
     return jsonify({"status": "Success"})
 
 
+# Company get all the existing forms for dashboard
 @bp.route('/', methods=['POST'])
 def homepage():
     json_data = request.json
@@ -46,6 +48,7 @@ def homepage():
     return jsonify({"status": "Success", "forms": return_list})
 
 
+# Delete a from and all its response
 @bp.route('/deleteform', methods=['POST'])
 def delete_form():
     json_data = request.json
@@ -64,22 +67,3 @@ def delete_form():
         r.delete()
     form.delete()
     return jsonify({"status": "Success"})
-
-
-# @bp.route('/updateform', methods=['POST'])
-# def update_form():
-#     json_data = request.json
-#     formId = json_data['form_id']
-#     new_field_list = json_data['field_list']
-#     token = json_data["jwt"]
-#     company = decode_auth_token(token)
-#     if isinstance(company, str):
-#         return jsonify({"status": company})
-#     form = Form.objects(pk=formId).first()
-#     if form is None:
-#         return jsonify({"status": "Form not exist"})
-#     if form.companyany_id != str(company.pk):
-#         return jsonify({"status": "Unauthorized"})
-#     form.field_list = new_field_list
-#     form.save()
-#     return jsonify({"status": "Success"})

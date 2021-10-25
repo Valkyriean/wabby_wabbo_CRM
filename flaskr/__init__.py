@@ -37,6 +37,7 @@ def create_app(test_config=None):
     db.init_app(app)
     # csrf.init_app(app)
 
+    # Serve the static file to client's browser
     @app.route('/', methods=["GET"])
     def get_index():
         return send_file('./static/dist/index.html')

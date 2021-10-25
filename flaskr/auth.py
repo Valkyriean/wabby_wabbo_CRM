@@ -6,6 +6,7 @@ from email_validator import validate_email, EmailNotValidError
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
+# API for register new account and log it in, assuming remember me is false
 @bp.route('/register', methods=['POST'])
 def register():
     json_data = request.json
@@ -28,18 +29,21 @@ def register():
             company.email = email
             company.password = generate_password_hash(password)
             company.save()
-            token = encode_auth_token(str(company.pk))
+            token = encode_auth_token(str(company.pk), 1)
             return jsonify({"status": "Success", "jwt": token})
         else:
             error = 'Email already registered.'
     return jsonify({"status": error})
 
 
+# API for login existing account, token will valid for 7 days if remember me is
+# selected, and 1 day is not
 @bp.route('/login', methods=['POST'])
 def login():
     json_data = request.json
     email = json_data['email'].lower()
     password = json_data['password']
+    rememberMe = json_data['rememberMe']
     error = None
     try:
         valid = validate_email(email)
@@ -52,11 +56,17 @@ def login():
     elif not check_password_hash(company['password'], password):
         error = 'Incorrect password.'
     if error is None:
-        token = encode_auth_token(str(company.pk))
+        if (rememberMe is True):
+            # print("rememberMe is true")
+            token = encode_auth_token(str(company.pk), 7)
+        else:
+            # print("rememberMe is false")
+            token = encode_auth_token(str(company.pk), 1)
         return jsonify({"status": "Success", "jwt": token})
     return jsonify({"status": error})
 
 
+# API for change password of existing accout
 @bp.route('/changepass', methods=['POST'])
 def change_password():
     json_data = request.json
@@ -78,6 +88,7 @@ def change_password():
     return jsonify({"status": error})
 
 
+# API for delete account
 @bp.route('/deleteaccount', methods=['POST'])
 def delete_account():
     json_data = request.json

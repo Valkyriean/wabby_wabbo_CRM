@@ -72,7 +72,8 @@ def test_login(client, db, auth):
      ("test@gmail.com", "a", b"Incorrect password.")),
 )
 def test_login_validate_input(auth, db, app,  email, password, message):
-    response = auth.login(email, password)
+    rememberMe = True
+    response = auth.login(email, password, rememberMe)
     assert message in response.data
 
 

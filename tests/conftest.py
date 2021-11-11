@@ -62,8 +62,8 @@ class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self, email='test@gmail.com', password='cccc3333'):
-        return self._client.post('/auth/login', json={'email': email, 'password': password}, follow_redirects=True)
+    def login(self, email='test@gmail.com', password='cccc3333', rememberMe = True):
+        return self._client.post('/auth/login', json={'email': email, 'password': password, 'rememberMe': rememberMe}, follow_redirects=True)
 
     def logout(self):
         return self._client.get('/auth/logout')

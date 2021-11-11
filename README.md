@@ -7,3 +7,6 @@ Use 'npm run build' in frontend folder to compile the front end and drag the dis
 
 Please set the global envirment variable of SECRET_KEY, DB_USERNAME, and DB_PASSWORD before running.
 
+Run Server using:
+
+gunicorn "flaskr:create_app()"

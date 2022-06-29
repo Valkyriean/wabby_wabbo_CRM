@@ -158,3 +158,4 @@ build/
 .idea/
 node_modules/
 secret/
+.DS_Store
